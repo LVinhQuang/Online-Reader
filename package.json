@@ -1,0 +1,25 @@
+{
+  "name": "online-reader",
+  "version": "1.0.0",
+  "description": "- **File Name:** Camel case.\r - **Variable:** Camel case.\r - **Function, Method, Class:** Pascal case.\r - **CSS class:** BEM.\r - **Get branch:** Snake case.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Flife11/Online-Reader.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Flife11/Online-Reader/issues"
+  },
+  "homepage": "https://github.com/Flife11/Online-Reader#readme",
+  "dependencies": {
+    "express": "^4.19.2",
+    "nodemon": "^3.1.0",
+    "require-dir": "^1.2.0"
+  }
+}
