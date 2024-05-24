@@ -4,6 +4,8 @@ const app = express();
 const port = 3000;
 const fs = require('fs');
 const path = require('path');
+const tf = require('./Services/truyenfull')
+const truyenfull = new tf();
 
 // Require router
 const NovelRouter = require('./Routers/NovelRouter');
