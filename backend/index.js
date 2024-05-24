@@ -10,10 +10,6 @@ const truyenfull = new tf();
 // Require router
 const NovelRouter = require('./Routers/NovelRouter');
 
-app.get('/truyenfull', async (req, res) => {
-  const data = await truyenfull.GetTruyenFull();
-  res.send(data);
-})
 // Define the relative path to the folder you want to monitor
 // const folderToMonitor = path.join(__dirname, 'Services/');
 

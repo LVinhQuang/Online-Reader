@@ -8,7 +8,7 @@ module.exports = class Domain1 {
         console.log('Domain 1');
     }
 
-    async GetFeaturedNovel() {
+    async GetFeaturedNovels() {
         try {
 
             let url = URL + '/tong-hop?rank=nm&time=m&page=1'
