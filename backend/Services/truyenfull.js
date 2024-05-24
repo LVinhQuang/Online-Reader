@@ -5,7 +5,7 @@ module.exports = class TruyenFull {
         this.baseUrl = 'https://truyenfull.vn/';
     }
 
-    async GetTruyenFull() {
+    async GetFeaturedNovel() {
         const browser = await puppeteer.launch({headless: true});
         const page = await browser.newPage();
         await page.goto(this.baseUrl, {waitUntil: 'networkidle2'});
@@ -23,5 +23,7 @@ module.exports = class TruyenFull {
         return data;
     }
 
-    async 
+    async GetNovelDetail(novel) {
+        
+    }
 }
