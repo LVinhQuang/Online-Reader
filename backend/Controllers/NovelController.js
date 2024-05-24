@@ -1,11 +1,11 @@
-const Domain1 = require('../Services/domain1');
+const TangThuVien = require('../Services/tangthuvien');
 const TruyenFull = require('../Services/truyenfull');
-//TODO: thay Domain1 thành factory
+//TODO: thay TangThuVien thành factory
 
 module.exports = {
     GetFeaturedNovels: async function(req, res){
         try{
-            const Domain = new TruyenFull();//
+            const Domain = new TangThuVien();//
             let Data = await Domain.GetFeaturedNovels();
 
             res.status(200).json({data:Data});
@@ -18,7 +18,7 @@ module.exports = {
 
     GetDetailNovel: async function(req, res){
         try{
-            const Domain = new Domain1();//
+            const Domain = new TangThuVien();//
             let Data = await Domain.GetDetailNovel(req.params.name);
 
             res.status(200).json({data:Data});

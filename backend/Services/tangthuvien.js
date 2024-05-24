@@ -3,7 +3,7 @@ const cheerio = require('cheerio');
 
 const URL = 'https://truyen.tangthuvien.vn';
 
-module.exports = class Domain1 {
+module.exports = class TangThuVien {
     Print() {
         console.log('Domain 1');
     }
