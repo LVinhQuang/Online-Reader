@@ -4,11 +4,17 @@ const app = express();
 const port = 3000;
 const fs = require('fs');
 const path = require('path');
+const tf = require('./Services/truyenfull')
+const truyenfull = new tf();
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
+app.get('/truyenfull', async (req, res) => {
+  const data = await truyenfull.GetTruyenFull();
+  res.send(data);
+})
 // Define the relative path to the folder you want to monitor
 // const folderToMonitor = path.join(__dirname, 'Services/');
 
