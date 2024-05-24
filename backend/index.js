@@ -7,9 +7,8 @@ const path = require('path');
 const tf = require('./Services/truyenfull')
 const truyenfull = new tf();
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+// Require router
+const NovelRouter = require('./Routers/NovelRouter');
 
 app.get('/truyenfull', async (req, res) => {
   const data = await truyenfull.GetTruyenFull();
@@ -25,6 +24,8 @@ app.get('/truyenfull', async (req, res) => {
 //         // Perform your action here
 //     }
 // });
+
+app.use('/', NovelRouter);
 
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
