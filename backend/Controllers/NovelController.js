@@ -6,8 +6,7 @@ module.exports = {
     GetFeaturedNovels: async function(req, res){
         try{
             const Domain = new TruyenFull();//
-            let Data = await Domain.GetFeaturedNovels();
-
+            let Data = await Domain.GetNovelDetail();
             res.status(200).json({data:Data});
         }
         catch(error){
@@ -15,5 +14,4 @@ module.exports = {
             res.status(500).json({message: error});
         }
     }
-
 }
