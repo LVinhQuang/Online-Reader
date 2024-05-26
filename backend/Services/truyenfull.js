@@ -1,5 +1,3 @@
-const puppeteer = require("puppeteer");
-
 module.exports = class TruyenFull {
     constructor() {
         this.baseUrl = 'https://truyenfull.vn/';
