@@ -1,7 +1,7 @@
 import classNames from "classnames/bind";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useState,memo } from "react";
 
 import styles from "./Setting.module.scss";
 import DomainSetting from "../DomainSetting";
@@ -13,6 +13,10 @@ function Setting() {
   function ShowDomainSetting() {
     setIsSetting((preState) => !preState);
   }
+  // function HandlerShowSetting()
+  // {
+  //   setIsSetting(false)
+  // }
   return (
 
     <div className={cx("setting")}>
@@ -20,10 +24,10 @@ function Setting() {
             <FontAwesomeIcon icon={faGear}  onClick={ShowDomainSetting}/>
         </div>
       {
-        isSetting && <DomainSetting/>
+        isSetting && <DomainSetting />
       }
     </div>
   );
 }
 
-export default Setting;
+export default memo(Setting);

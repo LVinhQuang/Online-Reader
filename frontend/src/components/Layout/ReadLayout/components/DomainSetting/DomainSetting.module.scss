@@ -2,13 +2,16 @@
 {
     display: flex;
     flex-direction: column;
-    width: 300px;
+    width: 250px;
     border-radius: 10%;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); 
     position: absolute;
     z-index: 0;
-    top: 110%;
-    animation: fadeInDown 0.5s ease forwards
+    // top: 110%;
+    top:110%;
+    right: -100%;
+    animation: fadeInDown 0.5s ease forwards;
+    background-color: white;
 
 }
 @keyframes fadeInDown {
@@ -45,7 +48,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    
+    cursor: pointer;
 }
 .domain_name:hover{
     background-color:var(--color-hover);
@@ -67,7 +70,7 @@
     padding-top: 5px;
     max-height: 300px; /* Giới hạn chiều cao của danh sách là 300px */
     overflow-x: auto;
-    border-top: 1px solid rgb(58, 56, 56);
+    border-top: 2px solid #9d98c6;
 
 }
 .active

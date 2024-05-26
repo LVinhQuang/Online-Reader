@@ -1,21 +1,20 @@
 import classNames from "classnames/bind";
-import { useEffect, useState } from "react";
+import { useEffect, useState,memo} from "react";
 import styles from "./DomainSetting.module.scss";
 
 const cx = classNames.bind(styles);
 
-const listDomain = ["Domain 1", "Domain 2", "Domain 3"];
+const listDomain = ["domain 1", "domain 2", "domain 3"];
 
 function DomainSetting() {
   const [active, setActive] = useState("");
   // Lấy dữ liệu từ Local Storage khi component được render
   useEffect(() => {
     const storedData = localStorage.getItem("domain");
-    console.log(storedData);
     if (storedData) {
-      setActive(parseInt(storedData));
+      setActive(storedData);
     } else {
-      setActive(0);
+      setActive(listDomain[0]);
     }
   }, []);
 
@@ -31,6 +30,7 @@ function DomainSetting() {
 
   function saveActivate(index) {
     setActive(index);
+    // onUpdateSeting()
   }
   return (
     <div className={cx("setting_domain")}>
@@ -43,9 +43,9 @@ function DomainSetting() {
             listDomain.map((domain, index) => {
               return (
                 <div
-                  className={cx("domain_name", { active: index === active })}
+                  className={cx("domain_name", { active: listDomain[index] === active })}
                   key={index}
-                  onClick={() => saveActivate(index)}
+                  onClick={() => saveActivate(domain)}
                 >
                   <div>{domain}</div>
                 </div>
@@ -57,4 +57,4 @@ function DomainSetting() {
   );
 }
 
-export default DomainSetting;
+export default memo( DomainSetting);

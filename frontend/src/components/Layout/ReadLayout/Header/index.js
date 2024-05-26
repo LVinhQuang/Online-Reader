@@ -10,7 +10,7 @@ const cx= classNames.bind(styles)
 function Header() {
     return <div className={cx('header')}>
         <div></div>
-        <Title/>
+        <Title name="Võ Đang Kỳ Hiệp" chapter="451"/>
         <Setting/>
          </div>;
 }
