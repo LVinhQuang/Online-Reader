@@ -1,21 +1,25 @@
 import classNames from "classnames/bind";
-import { useState,memo } from "react";
+import { useState, memo, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import styles from "./Dropdown.module.scss";
 
 const cx = classNames.bind(styles);
 
-function Dropdown({ listElements, currentElement ,position}) {
-  //   console.log(listElements);
+function Dropdown({ listElements, currentElement, position, name }) {
+  const navigate = useNavigate();
   const [context, setContext] = useState(currentElement);
   const [displayNode, setDisplayNode] = useState(true);
   function HandlerDisplayDropdown() {
     setDisplayNode((prev) => !prev);
   }
-  function HandlerSetContext(currentContext) {
-    // console.log(currentContext);
-    setContext(currentContext);
+  function HandlerSetContext(id) {
     HandlerDisplayDropdown();
+    navigate(`/read/${name}/${id}`);
   }
+  useEffect(() => {
+    setContext(currentElement);
+  }, [currentElement]);
   return (
     <div className={cx("dropdown")}>
       <div
@@ -25,7 +29,11 @@ function Dropdown({ listElements, currentElement ,position}) {
         <span>{context}</span>
       </div>
       <div
-        className={cx("dropdown-listcontext", { "display-none": displayNode,'top':position,'bottom':!position })}
+        className={cx("dropdown-listcontext", {
+          "display-none": displayNode,
+          top: position,
+          bottom: !position,
+        })}
       >
         {listElements &&
           listElements.map((element, index) => {
@@ -33,7 +41,7 @@ function Dropdown({ listElements, currentElement ,position}) {
               <div
                 key={index}
                 className={cx("dropdown-listcontext-element")}
-                onClick={() => HandlerSetContext(element)}
+                onClick={() => HandlerSetContext(index)}
               >
                 <div
                   className={cx("dropdown-listcontext-element-context", {

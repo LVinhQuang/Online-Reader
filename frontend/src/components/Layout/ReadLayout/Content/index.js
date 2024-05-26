@@ -42,7 +42,7 @@ function Content({ context }) {
     const storedDataJson = localStorage.getItem("chapterconfig");
     if(storedDataJson)
       {
-        console.log(storedDataJson);
+        // console.log(storedDataJson);
         const storedDate= JSON.parse(storedDataJson)
         setSize(storedDate.size);
         setFont(storedDate.font);
