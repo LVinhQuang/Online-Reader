@@ -6,7 +6,8 @@ module.exports = {
     GetFeaturedNovels: async function(req, res){
         try{
             const Domain = new TruyenFull();//
-            let Data = await Domain.GetNovelDetail();
+            console.log(Domain);
+            let Data = await Domain.GetFeaturedNovels();
             res.status(200).json({data:Data});
         }
         catch (error) {
@@ -15,10 +16,10 @@ module.exports = {
         }
     },
 
-    GetDetailNovel: async function (req, res) {
+    GetNovelDetail: async function (req, res) {
         try {
-            const Domain = new TangThuVien();//
-            let Data = await Domain.GetDetailNovel(req.params.name);
+            const Domain = new TruyenFull();//
+            let Data = await Domain.GetNovelDetail(req.params.name);
 
             res.status(200).json({ data: Data });
         }

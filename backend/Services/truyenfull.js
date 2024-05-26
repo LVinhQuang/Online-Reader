@@ -1,10 +1,12 @@
+const puppeteer = require('puppeteer');
+
 module.exports = class TruyenFull {
     constructor() {
         this.baseUrl = 'https://truyenfull.vn/';
     }
 
     async GetFeaturedNovels() {
-        const browser = await puppeteer.launch({ headless: true });
+        const browser = await puppeteer.launch({ headless: false });
         const page = await browser.newPage();
         await page.goto(this.baseUrl, { waitUntil: 'networkidle2' });
         const data = await page.evaluate(() => {
@@ -21,13 +23,14 @@ module.exports = class TruyenFull {
         return data;
     }
 
-    async GetNovelDetail(novel) {
+    async GetNovelDetail(name) {
         const browser = await puppeteer.launch({ headless: true });
         const page = await browser.newPage();
-        await page.goto(this.baseUrl + "vo-chong-sieu-sao-hoi-ngot/", { waitUntil: 'networkidle2' });
+        await page.goto(this.baseUrl + name, { waitUntil: 'networkidle2' });
         const data = await page.evaluate(() => {
             const title = document.querySelector('h3.title').innerHTML;
             const image = document.querySelector('.book img').src;
+            const intro = document.querySelector('.desc-text').innerHTML;
             const author = $('.info').find("div:has(h3:contains('Tác giả:'))").find('a').text();
             const status = $('.info').find("div:has(h3:contains('Trạng thái:'))").find('span').text();
             const genres = $('.info')
@@ -36,10 +39,11 @@ module.exports = class TruyenFull {
                 .map(function () {
                     return $(this).text();
                 })
-                .get()
-                .join(", ");
+                .get();
 
             var chapters = []
+                
+
             // Lấy ra tất cả các thẻ div có class là "col-xs-12 col-sm-6 col-md-6"
             var divElements = document.querySelectorAll('.col-xs-12.col-sm-6.col-md-6');
 
@@ -67,7 +71,8 @@ module.exports = class TruyenFull {
                 author: author,
                 genres: genres,
                 status: status,
-                chapters: chapters
+                intro: intro,
+                chapters: chapters,
             }
         });
         return data;

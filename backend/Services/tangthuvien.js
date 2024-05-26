@@ -58,7 +58,7 @@ module.exports = class TangThuVien {
         }
     }
 
-    async GetDetailNovel(name) {
+    async GetNovelDetail(name) {
         try {
             let url = URL + '/doc-truyen/' + name;
             let htmlData = await fetch(url);
