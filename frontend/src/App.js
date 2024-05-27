@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Fragment } from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 // add Routes
 // if u want to add new Routes
