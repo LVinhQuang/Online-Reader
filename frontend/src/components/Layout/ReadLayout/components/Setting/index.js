@@ -8,7 +8,7 @@ import DomainSetting from "../DomainSetting";
 
 const cx = classNames.bind(styles);
 
-function Setting() {
+function Setting({listDomain}) {
   const [isSetting, setIsSetting] = useState(false);
   function ShowDomainSetting() {
     setIsSetting((preState) => !preState);
@@ -24,7 +24,7 @@ function Setting() {
             <FontAwesomeIcon icon={faGear}  onClick={ShowDomainSetting}/>
         </div>
       {
-        isSetting && <DomainSetting />
+        isSetting && <DomainSetting listDomain={listDomain} />
       }
     </div>
   );
