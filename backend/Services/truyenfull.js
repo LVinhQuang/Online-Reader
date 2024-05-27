@@ -1,8 +1,10 @@
 const puppeteer = require('puppeteer');
+const cheerio = require('cheerio');
 
 module.exports = class TruyenFull {
     constructor() {
         this.baseUrl = 'https://truyenfull.vn/';
+        this.allChapterUrl = 'https://truyenfull.vn/ajax.php?type=chapter_option&data=';
     }
 
     async GetFeaturedNovels() {
@@ -27,7 +29,8 @@ module.exports = class TruyenFull {
         const browser = await puppeteer.launch({ headless: true });
         const page = await browser.newPage();
         await page.goto(this.baseUrl + name, { waitUntil: 'networkidle2' });
-        const data = await page.evaluate(() => {
+        const data = await page.evaluate(async () => {
+            const id = document.getElementById('truyen-id').value;
             const title = document.querySelector('h3.title').innerHTML;
             const image = document.querySelector('.book img').src;
             const intro = document.querySelector('.desc-text').innerHTML;
@@ -41,8 +44,20 @@ module.exports = class TruyenFull {
                 })
                 .get();
 
+            let allChapterData = await fetch("https://truyenfull.vn/ajax.php?type=chapter_option&data=" + id);
+
+            if (!allChapterData.ok) {
+                throw `${URL} is not available`
+            }
+
+            allChapterData = await allChapterData.text();
+
+            // const $ = cheerio.load(allChapterData);
+            // var lastOptionValue = $('.chapter_jump option:last').val();
+            // const numberOfChapters = parseInt(lastOptionValue.replace('chuong-', ''));
+            
             var chapters = []
-                
+
 
             // Lấy ra tất cả các thẻ div có class là "col-xs-12 col-sm-6 col-md-6"
             var divElements = document.querySelectorAll('.col-xs-12.col-sm-6.col-md-6');
@@ -65,7 +80,11 @@ module.exports = class TruyenFull {
                 });
             });
 
+
             return {
+                // id: id,
+                // allChapterData: allChapterData,
+                // numberOfChapters: numberOfChapters,
                 title: title,
                 image: image,
                 author: author,
