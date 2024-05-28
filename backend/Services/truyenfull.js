@@ -8,92 +8,78 @@ module.exports = class TruyenFull {
     }
 
     async GetFeaturedNovels() {
-        const browser = await puppeteer.launch({ headless: true });
-        const page = await browser.newPage();
-        await page.goto(this.baseUrl, { waitUntil: 'networkidle2' });
-        const data = await page.evaluate(() => {
+        try {
+            let response = await fetch(this.baseUrl);
+            let data = await response.text();
+            const $ = cheerio.load(data);
             let rs = [];
-            const items = Array.from(document.querySelectorAll('div[class^="item top"]'));
-            items.forEach(item => {
-                const title = item.querySelector('.title h3').innerText;
-                const link = item.querySelector('a').href;
-                const image = item.querySelector('img').src;
+            $('div[class^="item top"]').each((index, element) => {
+                const title = $(element).find('.title h3').text();
+                const link = $(element).find('a').attr('href').split('chuong-1')[0];
+                const image = $(element).find('img').attr('src');
                 rs.push({ title, link, image });
             });
             return rs;
-        });
-        return data;
+        } catch (error) {
+            throw error;
+        }
     }
 
     async GetNovelDetail(name) {
-        const browser = await puppeteer.launch({ headless: true });
-        const page = await browser.newPage();
-        await page.goto(this.baseUrl + name, { waitUntil: 'networkidle2' });
-        const data = await page.evaluate(async () => {
-            const id = document.getElementById('truyen-id').value;
-            const title = document.querySelector('h3.title').innerHTML;
-            const image = document.querySelector('.book img').src;
-            const intro = document.querySelector('.desc-text').innerHTML;
+        try {
+            let response = await fetch(this.baseUrl + name);
+            let data = await response.text();
+            if (!response.ok) {
+                throw `${URL} is not available`
+            }
+            let $ = cheerio.load(data);
+
+            const id = $('#truyen-id').val();
+            const title = $('h3.title').html();
+            const image = $('.book img').attr('src');
+            const intro = $('.desc-text').html();
             const author = $('.info').find("div:has(h3:contains('Tác giả:'))").find('a').text();
             const status = $('.info').find("div:has(h3:contains('Trạng thái:'))").find('span').text();
             const genres = $('.info')
                 .find("div:has(h3:contains('Thể loại:'))")
                 .find('a')
-                .map(function () {
-                    return $(this).text();
-                })
+                .map((i, el) => $(el).text())
                 .get();
 
-            let allChapterData = await fetch("https://truyenfull.vn/ajax.php?type=chapter_option&data=" + id);
+            response = await fetch(this.allChapterUrl + id);
 
-            if (!allChapterData.ok) {
+            if (!response.ok) {
                 throw `${URL} is not available`
             }
 
-            allChapterData = await allChapterData.text();
+            data = await response.text();
 
-            // const $ = cheerio.load(allChapterData);
-            // var lastOptionValue = $('.chapter_jump option:last').val();
-            // const numberOfChapters = parseInt(lastOptionValue.replace('chuong-', ''));
-            
-            var chapters = []
+            $ = cheerio.load(data);
+            var lastOptionValue = $('.chapter_jump option:last').val();
+            const numberOfChapters = parseInt(lastOptionValue.replace('chuong-', ''));
 
+            let chapters = []
 
-            // Lấy ra tất cả các thẻ div có class là "col-xs-12 col-sm-6 col-md-6"
-            var divElements = document.querySelectorAll('.col-xs-12.col-sm-6.col-md-6');
-
-            // Duyệt qua từng phần tử div
-            divElements.forEach(function (divElement) {
-                // Tìm tất cả các thẻ li trong từng div
-                var listItems = divElement.querySelectorAll('ul.list-chapter li');
-
-                // Duyệt qua từng thẻ li
-                listItems.forEach(function (listItem) {
-                    // Lấy giá trị của thuộc tính href
-                    var link = listItem.querySelector('a').getAttribute('href');
-
-                    // Lấy giá trị của thuộc tính title
-                    var title = listItem.querySelector('a').getAttribute('title').split(' - ')[1];
-
-                    // Tạo một đối tượng mới đại diện cho chương và thêm vào mảng chapters
-                    chapters.push({ "link": link, "title": title });
+            for (let i =0;i<numberOfChapters;i++) {
+                chapters.push({
+                    title: `Chương ${i}`,
+                    link: `${this.baseUrl}${name}/chuong-${i}`
                 });
-            });
-
+            }
 
             return {
-                // id: id,
-                // allChapterData: allChapterData,
-                // numberOfChapters: numberOfChapters,
                 title: title,
                 image: image,
                 author: author,
                 genres: genres,
                 status: status,
                 intro: intro,
+                numberOfChapters: numberOfChapters,
                 chapters: chapters,
             }
-        });
-        return data;
+        }
+        catch (error) {
+            throw error;
+        }
     }
 }
