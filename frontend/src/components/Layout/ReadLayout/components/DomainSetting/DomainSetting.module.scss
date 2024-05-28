@@ -1,0 +1,80 @@
+.setting_domain
+{
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    border-radius: 10%;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); 
+    position: absolute;
+    z-index: 0;
+    // top: 110%;
+    top:110%;
+    right: -100%;
+    animation: fadeInDown 0.5s ease forwards;
+    background-color: white;
+
+}
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-50px); /* Đưa phần tử lên trên 50px */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0); /* Di chuyển phần tử về vị trí ban đầu */
+    }
+}
+.title_setting
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0 0 20px;
+}
+.domain_list{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.domain_name
+{
+    color: black;;
+    margin: 3px;
+    font-size: 20px;
+    border-radius: 5px;
+    height: 40px;
+    width: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.domain_name:hover{
+    background-color:var(--color-hover);
+    color:white
+
+}
+.title
+{
+    align-items: center;
+    color: black;
+    font-size: 20px;
+}
+.list
+{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Tạo hai cột bằng độ rộng tự động */
+    gap: 10px;
+    margin: 20px 5px 20px 5px;
+    padding-top: 5px;
+    max-height: 300px; /* Giới hạn chiều cao của danh sách là 300px */
+    overflow-x: auto;
+    border-top: 2px solid #9d98c6;
+
+}
+.active
+{
+    background-color: var(--color-button);
+    color:white
+}

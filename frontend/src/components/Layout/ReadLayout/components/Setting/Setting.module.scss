@@ -1,0 +1,16 @@
+.setting
+{
+   
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+.icon_setting
+{
+    font-size: 36px;    
+    cursor: pointer;
+    color: var(--color-button);
+    :hover{
+        color: var(--color-hover);
+    }
+}
