@@ -30,7 +30,7 @@ Always include the `success` property and `data` property. ( Can have other prop
 
 ## Workflow
 - **Trello ticket:** to do -> doing -> code review -> testing -> done.
-- **Code review:** Tâm -> Quang, Quang -> Quân, Quân -> Sang, Sang -> Quốc, Quốc -> Tâm. (Code reviewers are also testers).
+- **Code reviewer:** Sang.
    - Tag the person who reviews your code on the group along with a link to the pull request.
    - Code is only merged after approval.
 - **Git:**
