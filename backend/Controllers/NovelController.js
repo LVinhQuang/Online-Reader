@@ -6,8 +6,8 @@ module.exports = {
     GetFeaturedNovels: async function(req, res){
         try{
             const Domain = new TangThuVien();//
-            console.log(Domain);
             let Data = await Domain.GetFeaturedNovels();
+            
             res.status(200).json({data:Data});
         }
         catch (error) {
