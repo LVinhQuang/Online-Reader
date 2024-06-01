@@ -1,21 +1,21 @@
 // API: truyen.tangthuvien.vn
 const cheerio = require('cheerio');
 
-const URL = 'https://truyen.tangthuvien.vn';
 
 module.exports = class TangThuVien {
-    Print() {
-        console.log('Domain 1');
+    constructor() {
+        this.baseUrl = 'https://truyen.tangthuvien.vn';
+        this.allChapterUrl = 'https://truyen.tangthuvien.vn/doc-truyen/page/<bookId>?limit=1000000&web=1';
     }
 
     async GetFeaturedNovels() {
         try {
 
-            let url = URL + '/tong-hop?rank=nm&time=m&page=1'
+            let url = this.baseUrl + '/tong-hop?rank=nm&time=m&page=1'
             let htmlData = await fetch(url);
 
             if (!htmlData.ok) {
-                throw `${URL} is not available`
+                throw `${this.baseUrl} is not available`
             }
 
             htmlData = await htmlData.text();
@@ -58,9 +58,28 @@ module.exports = class TangThuVien {
         }
     }
 
+    async GetChapterList(name = "", id) {
+        let chaptersURL = this.allChapterUrl.replace('<bookId>', id);
+
+        let htmlChapters = await fetch(chaptersURL);
+        htmlChapters = await htmlChapters.text();
+        let chapters = [];
+
+        let $ = cheerio.load(htmlChapters);
+        $('body ul.cf li').each((index, element) => {
+            let chapter = {
+                title: $(element).find('a').attr('title'),
+                link: $(element).find('a').attr('href')
+            };
+            chapters.push(chapter);
+        })
+
+        return chapters;
+    }
+
     async GetNovelDetail(name) {
         try {
-            let url = URL + '/doc-truyen/' + name;
+            let url = this.baseUrl + '/doc-truyen/' + name;
             let htmlData = await fetch(url);
 
             htmlData = await htmlData.text();
@@ -83,19 +102,7 @@ module.exports = class TangThuVien {
 
             // chapter
             const bookId = $('head meta[name="book_detail"]').attr('content');
-            const chaptersURL = URL + '/doc-truyen/page/' + bookId.toString() + '?limit=1000000&web=1';
-            let htmlChapters = await fetch(chaptersURL);
-            htmlChapters = await htmlChapters.text();
-            let chapters = [];
-
-            $ = cheerio.load(htmlChapters);
-            $('body ul.cf li').each((index, element) => {
-                let chapter = {
-                    title: $(element).find('a').attr('title'),
-                    link: $(element).find('a').attr('href')
-                };
-                chapters.push(chapter);
-            })
+            let chapters = await this.GetChapterList(name, bookId);
 
             result = {
                 title: title,
@@ -113,5 +120,66 @@ module.exports = class TangThuVien {
             throw error;
         }
 
+    }
+
+    async GetChapter(name, chapter) {
+        try {
+            let url = this.baseUrl + '/doc-truyen/' + name + '/' + chapter;
+            let htmlData = await fetch(url);
+
+            htmlData = await htmlData.text();
+
+            let $ = cheerio.load(htmlData);
+
+            // crawl data
+            let result = {}
+
+            let title = $('.truyen-title a').attr('title');
+            let chapterTitle = $('.col-xs-12.chapter h2').text();          
+            let content = $('.box-chap').html();
+
+            // get chapters
+            let bookId = $('input[name="story_id"]').val();
+            let chapters = await this.GetChapterList(" ", bookId);
+
+            // get cur, prev, next link
+            let curLink = url;
+
+            let prevLink = null;
+            chapters.forEach((chapter, index) => {
+                if (chapter.link === curLink) {
+                    if (index > 0) {
+                        prevLink = chapters[index - 1].link;
+                    }
+                }
+            });
+
+            let nextLink = null;
+            chapters.forEach((chapter, index) => {
+                if (chapter.link === curLink) {
+                    if (index < chapters.length - 1) {
+                        nextLink = chapters[index + 1].link;
+                    }
+                }
+            });
+            
+
+            // assign result
+            result = {
+                title: title,
+                chapterTitle: chapterTitle,
+                curLink: curLink,
+                prevLink: prevLink,
+                nextLink: nextLink,
+                content: content,
+                numberOfChapters: chapters.length,
+                chapters: chapters
+            }
+
+            return result;
+
+        } catch (error) {
+            throw error;
+        }
     }
 }
