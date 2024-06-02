@@ -39,19 +39,5 @@ module.exports = {
             //console.log(error)
             res.status(500).json({ message: error.message });
         }
-    },
-
-    GetChapter: async function (req, res) {
-        try {
-            const Domain = new TruyenFull();//
-
-            let Data = await Domain.GetChapter(req.params.name, req.params.chapter);
-
-            res.status(200).json({ data: Data });
-
-        } catch (error) {
-            //console.log(error)
-            res.status(500).json({ message: error });
-        }   
     }
 }
