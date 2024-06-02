@@ -135,7 +135,7 @@ module.exports = class TangThuVien {
             let result = {}
 
             let title = $('.truyen-title a').attr('title');
-            let chapterTitle = $('.col-xs-12.chapter h2').text();          
+            let chapterTitle = $('.col-xs-12.chapter h2').text();
             let content = $('.box-chap').html();
 
             // get chapters
@@ -162,7 +162,7 @@ module.exports = class TangThuVien {
                     }
                 }
             });
-            
+
 
             // assign result
             result = {
@@ -181,5 +181,61 @@ module.exports = class TangThuVien {
         } catch (error) {
             throw error;
         }
+    }
+
+    async SearchNovel(keyword, page) {
+
+        try {
+            let url = this.baseUrl + '/ket-qua-tim-kiem?term=' + keyword + '&page=' + page;
+
+            let htmlData = await fetch(url);
+            htmlData = await htmlData.text();
+
+            let $ = cheerio.load(htmlData);
+
+            let result = {};
+            let totalPages = 0;
+            let matchedNovels = [];
+
+            // get total pages
+            totalPages = $('.pagination li');
+            totalPages = totalPages.eq(-2).find('a').attr('href');
+            if(totalPages)
+                totalPages = parseInt(totalPages.split('=').pop())
+            else{
+                totalPages = $('.pagination li');
+                totalPages = totalPages.eq(-2).find('span').text();
+                totalPages = parseInt(totalPages)
+            }
+
+            if(parseInt(page) > totalPages){
+                return {
+                    totalPages: totalPages,
+                    matchedNovels: matchedNovels
+                }
+            }
+
+            $('.book-img-text ul li').each((index, element) => {
+                let novel = {
+                    title: $(element).find('.book-mid-info h4 a').text(),
+                    link: $(element).find('.book-img-box a').attr('href'),
+                    image: $(element).find('.book-img-box a img').attr('src'),
+                    author: $(element).find('.author .name').text(),
+                    totalChapters: $(element).find('.author .KIBoOgno').text(),
+                }
+
+                matchedNovels.push(novel);
+            });
+
+            result = {
+                totalPages: totalPages,
+                matchedNovels: matchedNovels
+            }
+
+            return result;
+        } catch (error) {
+            throw error;
+        }
+
     }
 }
