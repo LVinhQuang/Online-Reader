@@ -43,7 +43,7 @@ module.exports = {
 
     SearchNovel: async function (req, res) {
         try {
-            const Domain = new TangThuVien();//
+            const Domain = new TruyenFull();//
             let Data = await Domain.SearchNovel(req.query.keyword,req.query.page);
             res.status(200).json({ data: Data });
         }
