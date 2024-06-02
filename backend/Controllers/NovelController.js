@@ -37,7 +37,19 @@ module.exports = {
         }
         catch (error) {
             //console.log(error)
-            res.status(500).json({ message: error.message });
+            res.status(500).json({ message: error });
+        }   
+    },
+
+    SearchNovel: async function (req, res) {
+        try {
+            const Domain = new TangThuVien();//
+            let Data = await Domain.SearchNovel(req.query.keyword,req.query.page);
+            res.status(200).json({ data: Data });
+        }
+        catch (error) {
+            //console.log(error)
+            res.status(500).json({ message: error });
         }
     }
 }
