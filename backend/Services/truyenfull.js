@@ -1,4 +1,3 @@
-const puppeteer = require('puppeteer');
 const cheerio = require('cheerio');
 
 module.exports = class TruyenFull {
@@ -25,6 +24,41 @@ module.exports = class TruyenFull {
         }
     }
 
+    // Get chapter list of a novel
+    async GetChapterList(name, id) {
+        try {
+            // Get numbers of chapter
+            let response = await fetch(this.allChapterUrl + id);
+
+            if (!response.ok) {
+                throw `${URL} is not available`
+            }
+
+            let data = await response.text();
+
+            let $ = cheerio.load(data);
+            var lastOptionValue = $('.chapter_jump option:last').val();
+            const numberOfChapters = parseInt(lastOptionValue.replace('chuong-', ''));
+
+            // Get list of chapters
+            let chapters = []
+
+            for (let i = 1; i <= numberOfChapters; i++) {
+                chapters.push({
+                    title: `Chương ${i}`,
+                    link: `${this.baseUrl}${name}/chuong-${i}`
+                });
+            }
+
+            return {
+                numberOfChapters: numberOfChapters,
+                chapters: chapters,
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
+
     async GetNovelDetail(name) {
         try {
             let response = await fetch(this.baseUrl + name);
@@ -46,26 +80,7 @@ module.exports = class TruyenFull {
                 .map((i, el) => $(el).text())
                 .get();
 
-            response = await fetch(this.allChapterUrl + id);
-
-            if (!response.ok) {
-                throw `${URL} is not available`
-            }
-
-            data = await response.text();
-
-            $ = cheerio.load(data);
-            var lastOptionValue = $('.chapter_jump option:last').val();
-            const numberOfChapters = parseInt(lastOptionValue.replace('chuong-', ''));
-
-            let chapters = []
-
-            for (let i =0;i<numberOfChapters;i++) {
-                chapters.push({
-                    title: `Chương ${i}`,
-                    link: `${this.baseUrl}${name}/chuong-${i}`
-                });
-            }
+            let  {numberOfChapters, chapters} = await this.GetChapterList(name, id);
 
             return {
                 title: title,
@@ -79,6 +94,50 @@ module.exports = class TruyenFull {
             }
         }
         catch (error) {
+            throw error;
+        }
+    }
+
+    async GetChapter(name, chapter) {
+        try {
+            let response = await fetch(this.baseUrl + name + '/' + chapter);
+            
+
+            let data = await response.text();
+            if (!response.ok) {
+                throw `${URL} is not available`
+            }
+            let $ = cheerio.load(data);
+            const title = $('.truyen-title').text();
+            const chapterTitle = $('.chapter-title').text();
+            const content = $('#chapter-c p').html();
+            const curLink = $('.chapter-title').attr('href');
+            
+            let prevLink = $('#prev_chap').attr('href');
+            if (!prevLink.includes('truyenfull')) {
+                prevLink = null;
+            }
+
+            let nextLink = $('#next_chap').attr('href');
+            if (!nextLink.includes('truyenfull')) {
+                nextLink = null;
+            }
+
+            let id = $('#truyen-id').val();
+            let {numberOfChapters, chapters} = await this.GetChapterList(name, id);
+
+            return { 
+                title, 
+                chapterTitle, 
+                curLink, 
+                prevLink, 
+                nextLink, 
+                content, 
+                numberOfChapters, 
+                chapters
+            };
+
+        } catch (error) {
             throw error;
         }
     }
