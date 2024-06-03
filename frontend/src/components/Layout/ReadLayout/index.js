@@ -6,7 +6,11 @@ import styles from "./ReadLayout.module.scss";
 import Header from "./Header";
 import Nav from "./Nav";
 import Content from "./Content";
+
+
 const cx = classNames.bind(styles);
+const backendURL="http://localhost:3000";
+
 
 function ReadLayout({ children }) {
   const [listDomain, setListDomain] = useState([]);
@@ -16,12 +20,15 @@ function ReadLayout({ children }) {
   const [currentElement, setCurrentElement] = useState("");
   const { name, id } = useParams();
   // reset when set chapterconfig is not json
-  // const storedDataJson = localStorage.setItem("chapterconfig","");
+  // const storedDataJson = localStorage.setItem(`${name}-${id}`,"");
 
   // get domain
   useLayoutEffect(() => {
-    const url =
-      "https://0276e346-049a-4de3-8728-dd1f43fd215b.mock.pstmn.io/domains";
+    if(!domain)
+      {
+        return;
+      }
+    const url = `${backendURL}/getdomains`;
     fetch(url)
       .then((response) => {
         if (!response.ok) {
@@ -30,38 +37,24 @@ function ReadLayout({ children }) {
         return response.json();
       })
       .then((jsonData) => {
+        // console.log(jsonData);
         // Lưu dữ liệu vào state
-        setListDomain(jsonData);
+        setListDomain(jsonData.data);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, []);
+  }, [domain]);
 
-  //Get context
-  useEffect(() => {
-    const url =
-      "https://0276e346-049a-4de3-8728-dd1f43fd215b.mock.pstmn.io/context";
-    fetch(url)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((jsonData) => {
-        // Lưu dữ liệu vào state
-        setContext(jsonData);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, []);
 
   //Get chapters
   useLayoutEffect(() => {
-    const url =
-      "https://0276e346-049a-4de3-8728-dd1f43fd215b.mock.pstmn.io/chapters";
+    if(!name ||!domain)
+      {
+        return;
+      }
+    const url = `${backendURL}/${name}?domain=${domain}`;
+
     fetch(url)
       .then((response) => {
         if (!response.ok) {
@@ -71,18 +64,56 @@ function ReadLayout({ children }) {
       })
       .then((jsonData) => {
         // Lưu dữ liệu vào state
-        setChapters(jsonData);
-        console.log(jsonData[parseInt(id)]);
-        setCurrentElement(jsonData[parseInt(id)]);
+        const dataChapter= jsonData.data.chapters;
+        setCurrentElement(dataChapter[parseInt(id)].title);
+        const titles = dataChapter.map(chapter => chapter.title);
+        setChapters(titles);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, [id]);
+  }, [name,domain,id]);
+
+  //Get context
+  useEffect(() => {
+    // if(!name || !currentElement ||!domain)
+    //   {
+    //     return;
+    //   }
+    const currentChapter= currentElement.split(' ');
+    if(!currentChapter[1])
+      {
+        return;
+      }
+    const chapter= 'chuong-'+currentChapter[1].split('')[0];
+    
+    const url = `${backendURL}/${name}/${chapter}?domain=${domain}`;
+    fetch(url)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((jsonData) => {
+        if(!jsonData)
+          {
+            setContext('No data');
+            return;
+          }
+        // Lưu dữ liệu vào state
+        setContext(jsonData.data.content);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, [name,domain,currentElement]);
+
+
 
   //
   useEffect(() => {
-    let dataConfig = localStorage.getItem("chapterconfig");
+    let dataConfig = localStorage.getItem(`${name}-${id}`);
     if (dataConfig) {
       dataConfig = JSON.parse(dataConfig);
       if (dataConfig.domain) {
@@ -105,25 +136,23 @@ function ReadLayout({ children }) {
         color: "black",
         line: 1.5,
         background: "white",
-        scroll: 0,
       };
-      localStorage.setItem("chapterconfig", JSON.stringify(data));
+      localStorage.setItem(`${name}-${id}`, JSON.stringify(data));
     }
-  }, [listDomain]);
+  }, [listDomain,name,id]);
 
   // insert data into local storage when domain changed
   useEffect(() => {
-    const storageDataJson = localStorage.getItem("chapterconfig");
+    const storageDataJson = localStorage.getItem(`${name}-${id}`);
     if (storageDataJson) {
       const storageData = JSON.parse(storageDataJson);
       const data = {
         ...storageData,
         domain,
       };
-      localStorage.setItem("chapterconfig", JSON.stringify(data));
+      localStorage.setItem(`${name}-${id}`, JSON.stringify(data));
     }
-  }, [domain]);
-
+  }, [domain,name,id]);
   return (
     <div className={cx("readlayout")}>
       <Header listDomain={listDomain} />
@@ -138,7 +167,7 @@ function ReadLayout({ children }) {
         id={id}
       />
       <div className={cx("container")}>
-        <Content context={context} />
+        <Content context={context} name={name} id={id} />
       </div>
       <Nav
         currentElement={currentElement}

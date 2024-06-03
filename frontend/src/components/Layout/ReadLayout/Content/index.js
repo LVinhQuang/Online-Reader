@@ -8,6 +8,7 @@ import {
   faPalette,
   faTextHeight,
 } from "@fortawesome/free-solid-svg-icons";
+import parse from 'html-react-parser';
 
 import styles from "./Content.module.scss";
 
@@ -25,7 +26,7 @@ const backgroundColor = [
   "black",
   "yellow",
 ];
-function Content({ context }) {
+function Content({ context,name, id }) {
   const [size, setSize] = useState(sizeText[4]);
   const [font, setFont] = useState(fontText[0]);
   const [color, setColor] = useState(colorText[5]);
@@ -38,8 +39,13 @@ function Content({ context }) {
   const [showLine, setShowLine] = useState(false);
   const [showBackground, setShowBackground] = useState(false);
 
+  let content=''
+  if(context)
+  { 
+    content= context.replace(/\n/g, '<br/>')
+                    .replace(/\t/g, '    ');  }
   useEffect(() => {
-    const storedDataJson = localStorage.getItem("chapterconfig");
+    const storedDataJson = localStorage.getItem(`${name}-${id}`);
     if(storedDataJson)
       {
         // console.log(storedDataJson);
@@ -50,20 +56,20 @@ function Content({ context }) {
         setLine(storedDate.line);
         setBackground(storedDate.background);
       }
-  }, []);
+  }, [name,id]);
 
 
   useEffect(()=>{
-    const storedDataJson = localStorage.getItem("chapterconfig");
+    const storedDataJson = localStorage.getItem(`${name}-${id}`);
     if(storedDataJson)
       {
         const storedData= JSON.parse(storedDataJson)
         const storageData= {...storedData,size,font,color,line,background};
         
         const storageDataJson= JSON.stringify(storageData);
-        localStorage.setItem('chapterconfig',storageDataJson)
+        localStorage.setItem(`${name}-${id}`,storageDataJson)
     }
-  },[size,font,color,line,background])
+  },[size,font,color,line,background,name,id])
 
   return (
     <div className={cx("content")}>
@@ -76,7 +82,14 @@ function Content({ context }) {
           backgroundColor: background,
         }}
       >
-        {context}
+
+
+        
+        {parse(content)}
+
+
+
+
       </span>
       <div className={cx("action")}>
         <div className={cx("icon")}>
