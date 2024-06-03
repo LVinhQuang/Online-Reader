@@ -25,7 +25,7 @@ module.exports = class TruyenFull {
     }
 
     // Get chapter list of a novel
-    async GetChapterList(name, id) {
+    async #GetChapterList(name, id) {
         try {
             // Get numbers of chapter
             let response = await fetch(this.allChapterUrl + id);
@@ -80,7 +80,7 @@ module.exports = class TruyenFull {
                 .map((i, el) => $(el).text())
                 .get();
 
-            let  {numberOfChapters, chapters} = await this.GetChapterList(name, id);
+            let  {numberOfChapters, chapters} = await this.#GetChapterList(name, id);
 
             return {
                 title: title,
@@ -138,7 +138,7 @@ module.exports = class TruyenFull {
             }
 
             let id = $('#truyen-id').val();
-            let {numberOfChapters, chapters} = await this.GetChapterList(name, id);
+            let {numberOfChapters, chapters} = await this.#GetChapterList(name, id);
 
             return { 
                 title, 
@@ -150,6 +150,83 @@ module.exports = class TruyenFull {
                 numberOfChapters, 
                 chapters
             };
+
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    //Function to get total number of pages
+    #getTotalPages($) {
+        // Check if ul.pagination exists
+        let $paginationUl = $('ul.pagination');
+        if ($paginationUl.length === 0) {
+            // Case 1: No pagination element, only one page
+            return 1;
+        }
+
+        // Get all li elements inside the ul.pagination
+        let $paginationItems = $paginationUl.find('li');
+
+        // Initialize the lastPageNumber
+        let lastPageNumber = 1;
+
+        // Iterate through each li element to find the one containing 'Cuối'
+        $paginationItems.each(function() {
+            let $li = $(this);
+            let $a = $li.find('a');
+
+            if ($a.length > 0 && $a.text().includes('Cuối')) {
+                // Case 3: There is a "Cuối" element
+                // Get the page number from the "Cuối" element href
+                let lastPageHref = $a.attr('href');
+                let urlParams = new URLSearchParams(lastPageHref.split('?')[1]);
+                lastPageNumber = parseInt(urlParams.get('page'));
+                return false; // Break the loop
+            } else {
+                // Update lastPageNumber with the text content if it is a number
+                let pageNumber = parseInt($li.text());
+                if (!isNaN(pageNumber)) {
+                    lastPageNumber = pageNumber;
+                }
+            }
+        });
+
+        return lastPageNumber;
+    }
+
+    async SearchNovel(keyword,page) {
+        try {
+            let response = await fetch(this.baseUrl + 'tim-kiem/?tukhoa=' + keyword + '&page=' + page);
+            let data = await response.text();
+            if (!response.ok) {
+                throw `${URL} is not available`
+            }
+            let $ = cheerio.load(data);
+            let rs = {};
+            let matchedNovels = [];
+            $('.col-truyen-main .list-truyen .row').each((index, element) => {
+                const title = $(element).find('.truyen-title a').text().trim();
+                const author = $(element).find('.author').text().trim();
+                const totalChapters = parseInt($(element).find('.text-info a').text().trim().split("Chương ")[1]);
+                const link = $(element).find('.truyen-title a').attr('href');
+                const image = $(element).find('[data-image]').attr('data-image');
+                matchedNovels.push({ title, link, image, author, totalChapters });
+            });
+
+            // Get total pages of search result
+            if (!matchedNovels.length == 0) {
+                let totalPages = this.#getTotalPages($);
+                rs.totalPages = totalPages;
+            }
+            else {
+                let totalPages = 0;
+                rs.totalPages = totalPages;
+            }
+
+            rs.matchedNovels = matchedNovels;
+
+            return rs;
 
         } catch (error) {
             throw error;
