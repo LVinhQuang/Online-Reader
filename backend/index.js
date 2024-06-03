@@ -1,5 +1,4 @@
 const express = require('express');
-const Factory = require('./factory');
 const app = express();
 const port = 3000;
 const fs = require('fs');
@@ -18,16 +17,24 @@ app.use(
 const NovelRouter = require('./Routers/NovelRouter');
 const DomainsRouter = require('./Routers/DomainsRouter');
 
-// Define the relative path to the folder you want to monitor
-// const folderToMonitor = path.join(__dirname, 'Services/');
+// Get list domain in Services folder
+global.ListDomain = []
+let files = fs.readdirSync('./Services');
+files.forEach(file => {
+    let domain = file.split('.')[0];    
+    global.ListDomain[domain] = `./Services/${domain}`;
+});
 
-// fs.watch(folderToMonitor, (eventType, filename) => {
-//     if (eventType === 'rename') {
-//         const filePath = path.join(folderToMonitor, filename);
-//         console.log(`New file added: ${filePath}`);
-//         // Perform your action here
-//     }
-// });
+// Define the relative path to the folder you want to monitor
+const folderToMonitor = path.join(__dirname, 'Services/');
+fs.watch(folderToMonitor, (eventType, filename) => {
+    if (eventType === 'rename') {
+        const filePath = path.join(folderToMonitor, filename);
+        // console.log(`New file added: ${filePath}`);
+        // Perform your action here
+        global.ListDomain[filename] = `./Services/${filename}`;        
+    }
+});
 
 app.use('/getdomains', DomainsRouter);
 app.use('/', NovelRouter);

@@ -101,7 +101,6 @@ module.exports = class TruyenFull {
     async GetChapter(name, chapter) {
         try {
             let response = await fetch(this.baseUrl + name + '/' + chapter);
-            
 
             let data = await response.text();
             if (!response.ok) {
