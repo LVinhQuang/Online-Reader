@@ -13,9 +13,7 @@ app.use(
   }),
 );
 
-// Require router
-const NovelRouter = require('./Routers/NovelRouter');
-const DomainsRouter = require('./Routers/DomainsRouter');
+
 
 // Get list domain in Services folder
 global.ListDomain = []
@@ -36,8 +34,14 @@ fs.watch(folderToMonitor, (eventType, filename) => {
     }
 });
 
+// Require router
+const NovelRouter = require('./Routers/NovelRouter');
+const DomainsRouter = require('./Routers/DomainsRouter');
+
 app.use('/getdomains', DomainsRouter);
 app.use('/', NovelRouter);
+
+// Start server
 
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
