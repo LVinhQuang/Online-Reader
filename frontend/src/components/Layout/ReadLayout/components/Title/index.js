@@ -12,7 +12,7 @@ function Title({name, chapter}) {
       </div>
       <div>
         <span className ={cx('title_chapter')}>
-            Chapter {chapter}
+            {chapter}
         </span>
       </div>
     </div>

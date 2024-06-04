@@ -19,15 +19,12 @@ function ReadLayout({ children }) {
   const [domain, setDomain] = useState("");
   const [currentElement, setCurrentElement] = useState("");
   const { name, id } = useParams();
+  const [nameStory, setNameStory]=useState('')
   // reset when set chapterconfig is not json
   // const storedDataJson = localStorage.setItem(`${name}-${id}`,"");
 
   // get domain
   useLayoutEffect(() => {
-    if(!domain)
-      {
-        return;
-      }
     const url = `${backendURL}/getdomains`;
     fetch(url)
       .then((response) => {
@@ -44,7 +41,7 @@ function ReadLayout({ children }) {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, [domain]);
+  },[]);
 
 
   //Get chapters
@@ -54,6 +51,7 @@ function ReadLayout({ children }) {
         return;
       }
     const url = `${backendURL}/${name}?domain=${domain}`;
+    
 
     fetch(url)
       .then((response) => {
@@ -64,10 +62,21 @@ function ReadLayout({ children }) {
       })
       .then((jsonData) => {
         // Lưu dữ liệu vào state
-        const dataChapter= jsonData.data.chapters;
-        setCurrentElement(dataChapter[parseInt(id)].title);
-        const titles = dataChapter.map(chapter => chapter.title);
-        setChapters(titles);
+        if(jsonData && jsonData.data && jsonData.data.title)
+          {
+            setNameStory(jsonData.data.title)
+          }
+          if(jsonData && jsonData.data && jsonData.data.chapters)
+            {
+                const dataChapter= jsonData.data.chapters;
+                if(dataChapter[parseInt(id)]&& dataChapter[parseInt(id)].title)
+                  {
+                    setCurrentElement(dataChapter[parseInt(id)].title);
+                  } 
+                  const titles = dataChapter.map(chapter => chapter.title);
+                  setChapters(titles);
+            }
+
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -76,18 +85,22 @@ function ReadLayout({ children }) {
 
   //Get context
   useEffect(() => {
-    // if(!name || !currentElement ||!domain)
-    //   {
-    //     return;
-    //   }
+    if(!name || !currentElement ||!domain)
+      {
+        setContext('No data');
+        return;
+      }
+
     const currentChapter= currentElement.split(' ');
     if(!currentChapter[1])
       {
         return;
       }
-    const chapter= 'chuong-'+currentChapter[1].split('')[0];
-    
+    let chapter= 'chuong-'+currentChapter[1].split(':')[0];
+    chapter=chapter.trim();
     const url = `${backendURL}/${name}/${chapter}?domain=${domain}`;
+    console.log(url);
+
     fetch(url)
       .then((response) => {
         if (!response.ok) {
@@ -111,7 +124,6 @@ function ReadLayout({ children }) {
 
 
 
-  //
   useEffect(() => {
     let dataConfig = localStorage.getItem(`${name}-${id}`);
     if (dataConfig) {
@@ -155,7 +167,7 @@ function ReadLayout({ children }) {
   }, [domain,name,id]);
   return (
     <div className={cx("readlayout")}>
-      <Header listDomain={listDomain} />
+      <Header listDomain={listDomain} nameStory={nameStory} chapter={currentElement}/>
       <Nav
         currentElement={currentElement}
         position={true}
@@ -175,6 +187,7 @@ function ReadLayout({ children }) {
         listElements={chapters}
         name={name}
         id={id}
+        context={context}
       />
     </div>
   );

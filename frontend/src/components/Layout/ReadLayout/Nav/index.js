@@ -24,6 +24,7 @@ function Nav({
   listElements,
   name,
   id,
+  context
 }) {
   const navigate = useNavigate();
 
@@ -52,7 +53,7 @@ function Nav({
   }
   function HandlerActionHome()
   {
-    navigate(`/read/${name}`);
+    navigate(`/stories/${name}`);
 
   }
   return (
@@ -80,6 +81,7 @@ function Nav({
             <span style={{ marginLeft: "5px" }} onClick={() => HandlerActionPrevious()}>Chương trước</span>
           </ButtonReadPage>
         )}
+        {/* TODO button download */}
         <ButtonReadPage>
           <FontAwesomeIcon icon={faArrowDown}></FontAwesomeIcon>
         </ButtonReadPage>

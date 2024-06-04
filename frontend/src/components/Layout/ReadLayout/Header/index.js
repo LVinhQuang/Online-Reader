@@ -7,10 +7,10 @@ import Title from "../components/Title"
 
 const cx= classNames.bind(styles)
 
-function Header({listDomain}) {
+function Header({listDomain,nameStory,chapter}) {
     return <div className={cx('header')}>
         <div></div>
-        <Title name="Võ Đang Kỳ Hiệp" chapter="451"/>
+        <Title name={nameStory} chapter={chapter}/>
         <Setting listDomain={listDomain}/>
          </div>;
 }
