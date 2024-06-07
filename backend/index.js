@@ -17,7 +17,7 @@ app.use(
 
 // Get list domain in Services folder
 global.ListDomain = []
-let files = fs.readdirSync('./Services');
+let files = fs.readdirSync(path.resolve(__dirname,'./Services'));
 files.forEach(file => {
     let domain = file.split('.')[0];    
     global.ListDomain[domain] = `./Services/${domain}`;

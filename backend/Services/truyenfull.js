@@ -64,6 +64,18 @@ module.exports = class TruyenFull {
             let response = await fetch(this.baseUrl + name);
             let data = await response.text();
             if (!response.ok) {
+                if (response.status === 404) {
+                    return {
+                        title: null,
+                        image: null,
+                        author: null,
+                        genres: null,
+                        status: null,
+                        intro: null,
+                        numberOfChapters: null,
+                        chapters: null,
+                    }
+                }
                 throw `${URL} is not available`
             }
             let $ = cheerio.load(data);
@@ -94,6 +106,18 @@ module.exports = class TruyenFull {
             }
         }
         catch (error) {
+            if (error.status === 404) {
+                return {
+                    title: null,
+                    image: null,
+                    author: null,
+                    genres: null,
+                    status: null,
+                    intro: null,
+                    numberOfChapters: null,
+                    chapters: null,
+                }
+            }
             throw error;
         }
     }
@@ -104,11 +128,35 @@ module.exports = class TruyenFull {
 
             let data = await response.text();
             if (!response.ok) {
+                if (response.status === 404) {
+                    return {
+                        title: null,
+                        chapterTitle: null,
+                        curLink: null,
+                        prevLink: null,
+                        nextLink: null,
+                        content: null,
+                        numberOfChapters: null,
+                        chapters: null,
+                    }
+                }
                 throw `${URL} is not available`
             }
             let $ = cheerio.load(data);
             const title = $('.truyen-title').text();
             const chapterTitle = $('.chapter-title').text();
+            if (chapterTitle === '') {
+                return {
+                    title: null,
+                    chapterTitle: null,
+                    curLink: null,
+                    prevLink: null,
+                    nextLink: null,
+                    content: null,
+                    numberOfChapters: null,
+                    chapters: null,
+                }
+            }
 
             //Get content
             $('#chapter-c').find('div[class*="ads"]').remove()
