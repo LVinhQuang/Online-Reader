@@ -1,0 +1,15 @@
+.title, .title_name, .title_chapter{
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.title_name{
+    font-size: 36px;
+    color: var(--color-button);
+}
+.title_chapter{
+    font-size: 22px;
+    color: var(--color-hover);
+}
