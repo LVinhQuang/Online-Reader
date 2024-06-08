@@ -7,61 +7,10 @@ body {
   opacity: 0.9;
 }
 
-/* Navigation bar definitions */
-.navbar {
-  padding: 0;
-}
-
-.navbar .navbar-nav .nav-link {
-  padding: 1em;
-}
-
-.navbar .navbar-nav .nav-item {
-  position: relative;
-}
-
-.navbar .navbar-nav .nav-item::after {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  content: '';
-  background-color: rgb(169, 77, 123);
-  width: 0;
-  margin: 0 auto;
-  height: 4px;
-  transition: all .5s;
-}
-
-.navbar .navbar-nav .nav-item:hover::after {
-  width: 100%;
-}
-
-.navbar-dark .navbar-nav .nav-link {
-  color: rgb(25, 24, 24);
-}
-
-.navbar-dark .navbar-brand {
-  color: rgb(25, 24, 24);
-}
-
-@media screen and (min-width: 992px) {
-  .navbar {
-    padding: 0;
-  }
-
-  .navbar .navbar-nav .nav-link {
-    padding: 1em 0;
-  }
-
-  .navbar .navbar-nav .nav-item {
-    margin: 0 1em;
-  }
-}
-
 /* story custom color */
 .btn-story {
   background-color: rgb(169, 77, 123);
+  border: none;
   color: #fff;
 }
 
@@ -82,7 +31,6 @@ body {
 
 
 @keyframes bounceIn {
-
   from,
   20%,
   40%,
@@ -164,4 +112,12 @@ body {
   .header-banner h1 {
     font-size: 16px;
   }
+}
+
+.slogan {
+  font-family: "Arial", sans-serif;
+  font-size: 18px; /* Adjust the font size */
+  text-transform: uppercase; /* Convert text to uppercase */
+  color: #5cc91d; /* Set the text color */
+  letter-spacing: 2px; /* Adjust letter spacing */
 }

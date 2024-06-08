@@ -7,8 +7,8 @@ import { ReadLayout } from "../components/Layout";
 
 // Routes will be used in public environment
 const publicRoutes = [
-  { path: "/", component: Home, layout: null},
-  { path: "/stories/:name", component: Story},
+  { path: "/", component: Home,},
+  { path: "/stories/:domain/:name", component: Story},
   { path: "/read/:name/:id", component: Read, layout: ReadLayout },
   { path: "/information", component: Information, layout: null },
 ];

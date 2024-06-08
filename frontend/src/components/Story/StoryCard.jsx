@@ -2,6 +2,7 @@ import { Col, Card, CardBody } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
 const StoryCard = ({ story }) => {
+
     return (
         <Col className="mb-4" xs={12}>
             <Card>
@@ -21,7 +22,7 @@ const StoryCard = ({ story }) => {
                         <Card.Text>{story.totalChapters} chapters</Card.Text>
                     </div>
                     <div className="flex-shrink-0 mt-3">
-                        <Link to={`/stories/${story.name}`} className="btn btn-story btn-sm">
+                        <Link to={`/stories/${story.source}/${story.nameUrl}`} className="btn btn-story btn-sm">
                             View
                         </Link>
                     </div>

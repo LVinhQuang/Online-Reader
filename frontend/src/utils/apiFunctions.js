@@ -26,20 +26,34 @@ export const searchStory = async (domain, query) => {
         const searchPath = `/${domain}/search?keyword=${query}`
         // console.log("search path", searchPath)
         const response = await api.get(searchPath)
-        console.log("search result in api functions", response.data)
-        return { success: true, data: response.data.data }
+        const data = response.data.data.matchedNovels
+        const novels = data.map((novel) => {
+            const splitArray = novel.link?.split('/')
+            return {
+                ...novel,
+                nameUrl: splitArray[splitArray?.length - 1],
+                source: domain
+            }
+        })
+        return { success: true, data: novels }
     } catch (err) {
         return handleApiError(err)
         // throw new Error("Error searching stories with query")
     }
 }
 
-export const getStoryByName = async (name) => {
+export const getStoryByName = async (domain, name) => {
     try {
-        const result = await api.get(`/api/stories/${name}`)
-        return result.data
+        const getPath = `/${domain}/${name}`
+        // console.log("get story path", getPath)
+        const response = await api.get(getPath)
+        return {
+            success: true,
+            data: response.data.data
+        }
     } catch (err) {
-        throw new Error("Cannot find the story with name ", name)
+        handleApiError(err)
+        // throw new Error("Cannot find the story with name ", name)
     }
 }
 
@@ -49,9 +63,18 @@ export const getFeaturedStories = async (domain) => {
             domain = 'tangthuvien'
         }
         const response = await api.get(`/${domain}`)
-        console.log("featured stories", response.data)
-        return { success: true, data: response.data.data }
+        // console.log("featured stories", response.data)
+        const data = response.data.data
+        const stories = data.map(story => {
+            const splitArray = story.link.split("/")
+            const nameUrl = splitArray[splitArray.length - 1]
+            return {
+                ...story,
+                nameUrl: nameUrl,
+            }
+        })
+        return { success: true, data: stories }
     } catch (err) {
-    handleApiError(err)
-}
+        handleApiError(err)
+    }
 }
