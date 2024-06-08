@@ -56,7 +56,7 @@ const SearchBar = ({ query, setQuery, sources, setSource, onSearch }) => {
                     </Form.Select>
                 </Col>
                 <Col xs={12} md={3}>
-                    <Button type="submit" className="btn-story mx-2">View</Button>
+                    <Button type="submit" className="btn-story mx-2">Search</Button>
                 </Col>
             </Row>
         </Form>

@@ -9,7 +9,7 @@ const StoryList = ({ stories }) => {
       {stories.length > 0 && (<h3>Story list</h3>)}
       <ul>
         {stories.map(story => (
-          <StoryCard key={story.name} story={story} />
+          <StoryCard key={story.id} story={story} />
         ))}
       </ul>
     </>

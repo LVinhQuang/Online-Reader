@@ -13,7 +13,6 @@ const Home = () => {
   useEffect(() => {
     // Fetch sources from the backend
     getDomains().then(domains => {
-      console.log("donmains in home page: ", domains)
       setSources(domains)
     })
   }, []);
