@@ -45,7 +45,7 @@ function Content({ context,name, id }) {
     content= context.replace(/\n/g, '<br/>')
                     .replace(/\t/g, '    ');  }
   useEffect(() => {
-    const storedDataJson = localStorage.getItem(`${name}-${id}`);
+    const storedDataJson = localStorage.getItem(`${name}`);
     if(storedDataJson)
       {
         // console.log(storedDataJson);
@@ -60,16 +60,16 @@ function Content({ context,name, id }) {
 
 
   useEffect(()=>{
-    const storedDataJson = localStorage.getItem(`${name}-${id}`);
+    const storedDataJson = localStorage.getItem(`${name}`);
     if(storedDataJson)
       {
         const storedData= JSON.parse(storedDataJson)
         const storageData= {...storedData,size,font,color,line,background};
         
         const storageDataJson= JSON.stringify(storageData);
-        localStorage.setItem(`${name}-${id}`,storageDataJson)
+        localStorage.setItem(`${name}`,storageDataJson)
     }
-  },[size,font,color,line,background,name,id])
+  },[size,font,color,line,background,name])
 
   return (
     <div className={cx("content")}>
