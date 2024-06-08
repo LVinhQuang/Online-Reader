@@ -53,7 +53,13 @@ const Home = () => {
       <h2 className="slogan text-center">Embark on Infinite Adventures: Your Gateway to Endless Stories</h2>
       <hr />
       <Row className="justify-content-center align-items-center gap-2">
-        <SearchBar query={query} setQuery={setQuery} sources={sources} setSource={setSource} onSearch={handleSearch} />
+        <SearchBar
+          query={query}
+          setQuery={setQuery}
+          sources={sources}
+          setSource={setSource}
+          onSearch={handleSearch}
+        />
         <StoryList stories={stories} />
       </Row>
       <hr />

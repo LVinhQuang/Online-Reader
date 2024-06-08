@@ -11,7 +11,7 @@ const Story = () => {
     useEffect(() => {
         getStoryByName(domain, name).then(result => {
             if (result?.success) {
-                console.log("story fetched", result.data)
+                // console.log("story fetched", result.data)
                 setStory(result?.data)
             } else {
                 setError(result?.message)

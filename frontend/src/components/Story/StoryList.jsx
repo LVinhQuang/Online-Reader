@@ -7,6 +7,7 @@ const StoryList = ({ stories }) => {
 
   return (
     <>
+      {/* {stories?.length == 0 && (<p>No story</p>)} */}
       {stories?.length > 0 && (
         <div className="mx-0">
           <div>
