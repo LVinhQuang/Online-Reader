@@ -9,7 +9,6 @@ import { ReadLayout } from "../components/Layout";
 const publicRoutes = [
   { path: "/", component: Home, layout: null},
   { path: "/stories/:name", component: Story},
-  { path: "/search", component: Search },
   { path: "/read/:name/:id", component: Read, layout: ReadLayout },
   { path: "/information", component: Information, layout: null },
 ];

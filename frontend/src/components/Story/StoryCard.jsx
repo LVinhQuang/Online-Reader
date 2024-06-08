@@ -5,8 +5,8 @@ const StoryCard = ({ story }) => {
     return (
         <Col className="mb-4" xs={12}>
             <Card>
-                <CardBody className="d-flex flex-wrap align-items-center">
-                    <div className="flex-shrink-0 mr-3 mb-3 mb-md-0">
+                <CardBody className="d-flex align-items-center item">
+                    <div className="flex-shrink-0 mx-0 mb-3 mb-md-0">
                         <Card.Img
                             variant="top"
                             src={story.image}
@@ -16,8 +16,9 @@ const StoryCard = ({ story }) => {
                     </div>
                     <div className="flex-grow-1 ml-3 px-5">
                         <Card.Title className="story-color">{story.name}</Card.Title>
-                        <Card.Title>{story.author}</Card.Title>
-                        <Card.Text>{story.description}</Card.Text>
+                        <Card.Title>{story.title}</Card.Title>
+                        <Card.Text>Author: {story.author}</Card.Text>
+                        <Card.Text>{story.totalChapters} chapters</Card.Text>
                     </div>
                     <div className="flex-shrink-0 mt-3">
                         <Link to={`/stories/${story.name}`} className="btn btn-story btn-sm">

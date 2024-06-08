@@ -74,29 +74,12 @@ body {
 
 }
 
-.story-color {
-  color: rgb(169, 77, 123);
-}
 
 .vertical-rule {
   border-left: '0.5px solid black';
   height: '100vh'
 }
 
-
-.animated {
-  animation-duration: 1s;
-}
-
-.animated-texts h1 {
-  animation: fadeInDown 1s ease-in-out;
-}
-
-.animated-texts p,
-h1,
-h2 {
-  animation: fadeInUp 1s ease-in-out;
-}
 
 @keyframes bounceIn {
 
