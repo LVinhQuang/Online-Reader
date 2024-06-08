@@ -53,7 +53,7 @@ function Nav({
   }
   function HandlerActionHome()
   {
-    navigate(`/stories/${name}`);
+    navigate(`/stories/${domain}/${name}`);
 
   }
   return (
