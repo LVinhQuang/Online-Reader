@@ -31,7 +31,7 @@ const Home = () => {
       if (result?.success) {
         setFeaturedStories(result?.data)
       } else {
-        setError(result.message)
+        setError(result?.message)
       }
     })
   }, [source])

@@ -20,13 +20,16 @@ const Header = () => {
                 for (const key in historyLS) {
                     const domain = historyLS[key].domain
                     const fetchedStory = await getStoryByName(domain, key)
-                    stories.push({
-                        name: key,
-                        image: fetchedStory.data.image,
-                        title: fetchedStory.data.title,
-                        author: fetchedStory.data.author,
-                        id: historyLS[key].id
-                    })
+                    const data = fetchedStory?.data
+                    if (data) {
+                        stories.push({
+                            name: key,
+                            image: data.image,
+                            title: data.title,
+                            author: data.author,
+                            id: historyLS[key].id
+                        })
+                    }
                 }
                 // console.log("stories history", stories)
                 setIsLoading(false)
