@@ -53,7 +53,34 @@ function Nav({
   }
   function HandlerActionHome()
   {
-    navigate(`/stories/${domain}/${name}`);
+    const storageDataJson = localStorage.getItem(`history`);
+        if (storageDataJson) {
+          let dataJson = JSON.parse(storageDataJson);
+          let dataStory = dataJson[name];
+          if(dataStory)
+            {
+              const currentDomain= dataStory.domain;
+              navigate(`/stories/${currentDomain}/${name}`);
+              const storageDataJsonStory = localStorage.getItem(`${name}`);
+              if(storageDataJsonStory)
+                {
+                  let jsonStory= JSON.parse(storageDataJson)
+                  jsonStory={
+                    ...jsonStory,
+                    domain:currentDomain
+                  }
+                  localStorage.setItem(`${name}`,JSON.stringify(jsonStory))
+                }
+
+            }else
+            {
+              navigate(`/stories/${domain}/${name}`);
+            }
+        }
+        else
+        {
+          navigate(`/stories/${domain}/${name}`);
+        }
 
   }
   return (

@@ -66,14 +66,14 @@ export const getStoryByName = async (domain, name) => {
 export const getFeaturedStories = async (domain) => {
     try {
         if (!domain) {
-            return null
+            return{success: true, data: []};
         }
         const response = await api.get(`/${domain}`)
         // console.log("featured stories", response.data)
         const data = response.data.data
         const stories = data.map(story => {
             const splitArray = story.link.split("/")
-            const nameUrl = splitArray[splitArray.length - 1]
+            const nameUrl = splitArray[splitArray.length - 1] != "" ? splitArray[splitArray.length - 1] : splitArray[splitArray.length - 2]
             return {
                 ...story,
                 nameUrl: nameUrl,
