@@ -9,6 +9,7 @@ import {
   faTextHeight,
 } from "@fortawesome/free-solid-svg-icons";
 import parse from 'html-react-parser';
+import DownloadGroup from "../components/DownloadGroup";
 
 import styles from "./Content.module.scss";
 
@@ -26,7 +27,7 @@ const backgroundColor = [
   "black",
   "yellow",
 ];
-function Content({ context,name, id }) {
+function Content({ context, name, id, downloadTypeList, downloadUrl }) {
   const [size, setSize] = useState(sizeText[4]);
   const [font, setFont] = useState(fontText[0]);
   const [color, setColor] = useState(colorText[5]);
@@ -73,6 +74,8 @@ function Content({ context,name, id }) {
 
   return (
     <div className={cx("content")}>
+      {/* TODO button download */}
+      <DownloadGroup downloadTypeList={downloadTypeList} downloadUrl={downloadUrl}></DownloadGroup>
       <span
         style={{
           fontSize: size + "px",

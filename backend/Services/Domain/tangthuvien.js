@@ -2,7 +2,7 @@
 const cheerio = require('cheerio');
 
 
-module.exports = class TangThuVien {
+module.exports = new class TangThuVien {
     constructor() {
         this.baseUrl = 'https://truyen.tangthuvien.vn';
         this.allChapterUrl = 'https://truyen.tangthuvien.vn/doc-truyen/page/<bookId>?limit=1000000&web=1';

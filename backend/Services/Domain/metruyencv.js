@@ -1,6 +1,6 @@
 const cheerio = require('cheerio');
 
-module.exports = class MeTruyenCV {
+module.exports = new class MeTruyenCV {
     constructor() {
         this.baseUrl = 'https://metruyencv.com';
         this.allChapterUrl = 'https://backend.metruyencv.com/api/chapters?filter%5Bbook_id%5D=<bookId>&filter%5Btype%5D=published';

@@ -7,9 +7,9 @@ export const api = axios.create({
 
 const handleApiError = (err) => {
     console.error('API error:', err);
-    return { success: false, message: err.message };
+    const message = !err ? "Server error." : err.message
+    return { success: false, message: message };
 };
-
 
 export const getDomains = async () => {
     try {
@@ -27,15 +27,18 @@ export const searchStory = async (domain, query) => {
         // console.log("search path", searchPath)
         const response = await api.get(searchPath)
         const data = response.data.data.matchedNovels
-        const novels = data.map((novel) => {
-            const splitArray = novel.link?.split('/')
-            return {
-                ...novel,
-                nameUrl: splitArray[splitArray?.length - 1],
-                source: domain
-            }
-        })
-        return { success: true, data: novels }
+        if (data.length > 1) {
+            const novels = data.map((novel) => {
+                const splitArray = novel.link?.split('/')
+                return {
+                    ...novel,
+                    nameUrl: splitArray[splitArray?.length - 1],
+                    source: domain
+                }
+            })
+            return { success: true, data: novels }
+        }
+        return { success: true, data: null }
     } catch (err) {
         return handleApiError(err)
         // throw new Error("Error searching stories with query")
@@ -52,22 +55,25 @@ export const getStoryByName = async (domain, name) => {
             data: response.data.data
         }
     } catch (err) {
-        handleApiError(err)
-        // throw new Error("Cannot find the story with name ", name)
+        if (err.response && err.response.status === 500) {
+            handleApiError({ message: "Internal server error" })
+        } else {
+            handleApiError(err)
+        }
     }
 }
 
 export const getFeaturedStories = async (domain) => {
     try {
         if (!domain) {
-            domain = 'tangthuvien'
+            return{success: true, data: []};
         }
         const response = await api.get(`/${domain}`)
         // console.log("featured stories", response.data)
         const data = response.data.data
         const stories = data.map(story => {
             const splitArray = story.link.split("/")
-            const nameUrl = splitArray[splitArray.length - 1]
+            const nameUrl = splitArray[splitArray.length - 1] != "" ? splitArray[splitArray.length - 1] : splitArray[splitArray.length - 2]
             return {
                 ...story,
                 nameUrl: nameUrl,
@@ -84,11 +90,27 @@ export const getDetailChapterNovel = async (domain, name, chapter) => {
         const response = await api.get(`/${domain}/${name}/${chapter}`)
         // console.log("featured stories", response.data)
         
-            const data = response?.data?.data?.content
-            if(!data)
-                {
-                return { success: false, data: '' }
-            }
+        const data = response?.data?.data?.content
+        if(!data)
+            {
+            return { success: false, data: '' }
+        }
+        return { success: true, data: data }
+    } catch (err) {
+        handleApiError(err)
+    }
+}
+
+export const getDownloadTypes = async () => {
+    try {        
+        const response = await api.get('/download/types');             
+        const data = response?.data?.data
+
+        if(!data)
+        {
+            return { success: false, data: '' }
+        }
+        
         return { success: true, data: data }
     } catch (err) {
         handleApiError(err)

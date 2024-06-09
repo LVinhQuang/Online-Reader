@@ -6,9 +6,10 @@ import styles from "./ReadLayout.module.scss";
 import Header from "./Header";
 import Nav from "./Nav";
 import Content from "./Content";
-import { getStoryByName,getDomains, getDetailChapterNovel } from "../../../utils/apiFunctions";
+import { getStoryByName,getDomains, getDetailChapterNovel, getDownloadTypes } from "../../../utils/apiFunctions";
 
 const cx = classNames.bind(styles);
+const backendURL = "http://localhost:3000";
 
 function ReadLayout({ children }) {
   const [listDomain, setListDomain] = useState([]);
@@ -17,14 +18,22 @@ function ReadLayout({ children }) {
   const [domain, setDomain] = useState("");
   const [currentElement, setCurrentElement] = useState("");
   const { name, id } = useParams();
-  const [nameStory, setNameStory] = useState("");
+  const [nameStory, setNameStory]=useState('');
+  const [downloadUrl, setDownloadUrl] = useState("");
+  const [downloadTypeList, setDownloadTypeList] = useState([]);  
+
   // reset when set chapterconfig is not json
   // const storedDataJson = localStorage.setItem(`${name}`,"");
   // get domain
   useLayoutEffect(() => {
-    getDomains().then((result) => {
+    getDomains().then((result) => {      
       if (result.success) {
-        setListDomain(result.data);
+        setListDomain(result.data);        
+      }
+    });
+    getDownloadTypes().then((result) => {        
+      if (result.success) {
+        setDownloadTypeList(result.data);        
       }
     });
     // setListDomain(result.data);
@@ -67,7 +76,10 @@ function ReadLayout({ children }) {
       return;
     }
     let chapter = "chuong-" + currentChapter[1].split(":")[0];
-    chapter = chapter.trim();
+    chapter = chapter.trim();    
+
+    setDownloadUrl(`${backendURL}/download/${domain}/${name}/${chapter}`);
+    console.log(downloadUrl);
 
     getDetailChapterNovel(domain, name, chapter).then((result) => {
       if (result?.success) {
@@ -107,6 +119,20 @@ function ReadLayout({ children }) {
         }
       } else {
         setContext("No data");
+        // const storageDataJson = localStorage.getItem(`history`);
+        // if (storageDataJson) {
+        //   let dataJson = JSON.parse(storageDataJson);
+        //   let dataStory = dataJson[name];
+        //   if(dataStory)
+        //     {
+        //       const currentDomain= dataStory.domain;
+        //       if(currentDomain)
+        //         {
+        //           setDomain(currentDomain)
+        //         }
+        //     }
+        // }
+
       }
     });
   }, [name, domain, currentElement, id]);
@@ -152,6 +178,7 @@ function ReadLayout({ children }) {
       localStorage.setItem(`${name}`, JSON.stringify(data));
     }
   }, [domain, name, id]);
+  
   return (
     <div className={cx("readlayout")}>
       <Header
@@ -170,7 +197,10 @@ function ReadLayout({ children }) {
         id={id}
       />
       <div className={cx("container")}>
-        <Content context={context} name={name} id={id} />
+        <Content context={context} name={name} id={id} 
+          downloadTypeList={downloadTypeList}
+          downloadUrl={downloadUrl}
+        />
       </div>
       <Nav
         currentElement={currentElement}

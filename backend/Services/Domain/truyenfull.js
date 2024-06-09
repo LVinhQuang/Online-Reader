@@ -1,6 +1,6 @@
 const cheerio = require('cheerio');
 
-module.exports = class TruyenFull {
+module.exports = new class TruyenFull {
     constructor() {
         this.baseUrl = 'https://truyenfull.vn/';
         this.allChapterUrl = 'https://truyenfull.vn/ajax.php?type=chapter_option&data=';

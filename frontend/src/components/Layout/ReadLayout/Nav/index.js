@@ -5,8 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAnglesRight,
-  faAnglesLeft,
-  faArrowDown,
+  faAnglesLeft,  
   faHouse,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -23,12 +22,9 @@ function Nav({
   setDomain,
   listElements,
   name,
-  id,
-  context
+  id
 }) {
-  const navigate = useNavigate();
-
-  // console.log("domain recieve", domain);
+  const navigate = useNavigate();    
   const [indexCurrentChapter, setIndexCurrentChapter] = useState(
     listElements.indexOf(currentElement)
   );
@@ -53,7 +49,34 @@ function Nav({
   }
   function HandlerActionHome()
   {
-    navigate(`/stories/${domain}/${name}`);
+    const storageDataJson = localStorage.getItem(`history`);
+        if (storageDataJson) {
+          let dataJson = JSON.parse(storageDataJson);
+          let dataStory = dataJson[name];
+          if(dataStory)
+            {
+              const currentDomain= dataStory.domain;
+              navigate(`/stories/${currentDomain}/${name}`);
+              const storageDataJsonStory = localStorage.getItem(`${name}`);
+              if(storageDataJsonStory)
+                {
+                  let jsonStory= JSON.parse(storageDataJson)
+                  jsonStory={
+                    ...jsonStory,
+                    domain:currentDomain
+                  }
+                  localStorage.setItem(`${name}`,JSON.stringify(jsonStory))
+                }
+
+            }else
+            {
+              navigate(`/stories/${domain}/${name}`);
+            }
+        }
+        else
+        {
+          navigate(`/stories/${domain}/${name}`);
+        }
 
   }
   return (
@@ -81,11 +104,7 @@ function Nav({
             <span style={{ marginLeft: "5px" }} onClick={() => HandlerActionPrevious()}>Chương trước</span>
           </ButtonReadPage>
         )}
-        {/* TODO button download */}
-        <ButtonReadPage>
-          <FontAwesomeIcon icon={faArrowDown}></FontAwesomeIcon>
-        </ButtonReadPage>
-
+        
         <Dropdown
           listElements={listElements}
           currentElement={currentElement}

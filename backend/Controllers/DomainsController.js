@@ -1,11 +1,10 @@
-const DomainsModel = require('../Models/DomainsModel');
+const DomainFactory = require('../Factory/DomainFactory');
 
 module.exports = {
     GetAllDomains: async function(req, res){
         try {
-           
-            const Domains = new DomainsModel();
-            let Data = await Domains.GetAllDomains();
+                        
+            let Data = DomainFactory.GetAllDomains();
 
             res.status(200).json({data:Data});
             

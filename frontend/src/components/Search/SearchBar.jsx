@@ -1,14 +1,18 @@
 // src/components/SearchBar.js
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Form, Col, Row, Button } from 'react-bootstrap';
+import "./SearchBar.css"
 
 const SearchBar = ({ query, setQuery, sources, setSource, onSearch }) => {
+    const [isLoading, setIsLoading] = useState(false)
 
     const sourceSession = localStorage.getItem('domain')
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        onSearch();
+        setIsLoading(true)
+        await onSearch();
+        setIsLoading(false)
     };
     const handleSourceSelect = (e) => {
         const source = e.target.value
@@ -20,11 +24,12 @@ const SearchBar = ({ query, setQuery, sources, setSource, onSearch }) => {
 
     useEffect(() => {
         if (!sourceSession) {
+            // console.log("sources[0]", sources[0])
             setSource(sources[0])
         } else {
             setSource(sourceSession)
         }
-    }, [sourceSession])
+    }, [sources])
 
     return (
         <Form onSubmit={handleSubmit}>
@@ -58,7 +63,13 @@ const SearchBar = ({ query, setQuery, sources, setSource, onSearch }) => {
                     </Form.Select>
                 </Col>
                 <Col xs={12} md={1} className="px-0">
-                    <Button type="submit" className="btn-story mx-2">Search</Button>
+                    <Button
+                        type="submit"
+                        className="btn-story mx-2 d-flex justify-content-center"
+                        style={{ "width": "100px" }}
+                    >
+                        {isLoading ? (<div className="spinner"></div>) : (<span>Search</span>)}
+                    </Button>
                 </Col>
             </Row>
         </Form>

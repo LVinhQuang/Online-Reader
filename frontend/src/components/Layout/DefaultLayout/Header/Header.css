@@ -54,11 +54,21 @@ body {
     font-size: 14px;
 }
 
-.header__search-button {
-    background-color: #cc0e67be;
+.header__delete-button {
+    background-color: #b891a3be;
     border: none;
+    border-radius: 4px;
     cursor: pointer;
 }
+
+
+.header__delete-button:hover {
+    background-color: #dad6d6be;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
 
 .header__logo-first-letter {
     color: #cc0e67be;
