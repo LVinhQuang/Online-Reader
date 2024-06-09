@@ -32,7 +32,7 @@ const Story = () => {
             if (storyHistory && storyHistory[name]) {
                 setReadingSession({
                     name,
-                    id: storyHistory.id,
+                    id: storyHistory[name].id,
                 })
             }
         }

@@ -42,7 +42,7 @@ const Header = () => {
                             image: data.image,
                             title: data.title,
                             author: data.author,
-                            chapter: data.chapters[id].title,
+                            chapter: data.chapters[id]?.title,
                             id: id
                         })
                     }
