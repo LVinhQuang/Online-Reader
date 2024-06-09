@@ -35,13 +35,15 @@ const Header = () => {
                     const domain = historyLS[key].domain
                     const fetchedStory = await getStoryByName(domain, key)
                     const data = fetchedStory?.data
+                    const id = parseInt(historyLS[key].id)
                     if (data) {
                         stories.push({
                             name: key,
                             image: data.image,
                             title: data.title,
                             author: data.author,
-                            id: historyLS[key].id
+                            chapter: data.chapters[id].title,
+                            id: id
                         })
                     }
                 }
@@ -89,7 +91,7 @@ const Header = () => {
                                                         style={{ "display": "block" }}
                                                     >
                                                         <FontAwesomeIcon icon={faArrowRight} style={{ marginRight: "6px" }} />
-                                                        Continue chapter {story.id}
+                                                        Continue {story.chapter}
                                                     </Link>
                                                     <button
                                                         className="text-danger header__delete-button"
