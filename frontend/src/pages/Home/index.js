@@ -3,7 +3,7 @@ import { getDomains, searchStory, getFeaturedStories } from '../../utils/apiFunc
 import StoryList from '../../components/Story/StoryList';
 import FeaturedStories from '../../components/Story/Featured/FeaturedStories';
 import SearchBar from '../../components/Search/SearchBar';
-import { Container, Row, Col } from 'react-bootstrap'
+import { Container, Row } from 'react-bootstrap'
 import ErrorDialog from '../../components/Error/ErrorDialog';
 import "../../index.css"
 
@@ -16,14 +16,15 @@ const Home = () => {
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    // Fetch sources from the backend
-    getDomains().then(result => {
+    const fetchDomains = async () => {
+      const result = await getDomains()
       if (result.success) {
-        setSources(result.data)
+        setSources(result?.data)
       } else {
-        setError(result.message)
+        setError(result?.message)
       }
-    })
+    }
+    fetchDomains();
   }, []);
 
   useEffect(() => {
@@ -31,7 +32,7 @@ const Home = () => {
       if (result?.success) {
         setFeaturedStories(result?.data)
       } else {
-        setError(result.message)
+        setError(result?.message)
       }
     })
   }, [source])
@@ -44,6 +45,7 @@ const Home = () => {
       setError(searchResult.message)
     }
   };
+  
   const handleCloseErrorDialog = () => {
     setError(null);
   };

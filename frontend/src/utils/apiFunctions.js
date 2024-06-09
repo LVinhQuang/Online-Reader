@@ -7,9 +7,9 @@ export const api = axios.create({
 
 const handleApiError = (err) => {
     console.error('API error:', err);
-    return { success: false, message: err.message };
+    const message = !err ? "Server error." : err.message
+    return { success: false, message: message };
 };
-
 
 export const getDomains = async () => {
     try {
@@ -27,15 +27,18 @@ export const searchStory = async (domain, query) => {
         // console.log("search path", searchPath)
         const response = await api.get(searchPath)
         const data = response.data.data.matchedNovels
-        const novels = data.map((novel) => {
-            const splitArray = novel.link?.split('/')
-            return {
-                ...novel,
-                nameUrl: splitArray[splitArray.length - 1] != "" ? splitArray[splitArray.length - 1] : splitArray[splitArray.length - 2],
-                source: domain
-            }
-        })
-        return { success: true, data: novels }
+        if (data.length > 1) {
+            const novels = data.map((novel) => {
+                const splitArray = novel.link?.split('/')
+                return {
+                    ...novel,
+                    nameUrl: splitArray[splitArray?.length - 1],
+                    source: domain
+                }
+            })
+            return { success: true, data: novels }
+        }
+        return { success: true, data: null }
     } catch (err) {
         return handleApiError(err)
         // throw new Error("Error searching stories with query")
@@ -52,8 +55,11 @@ export const getStoryByName = async (domain, name) => {
             data: response.data.data
         }
     } catch (err) {
-        handleApiError(err)
-        // throw new Error("Cannot find the story with name ", name)
+        if (err.response && err.response.status === 500) {
+            handleApiError({ message: "Internal server error" })
+        } else {
+            handleApiError(err)
+        }
     }
 }
 
