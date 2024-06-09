@@ -11,6 +11,20 @@ const Header = () => {
     const [isLoading, setIsLoading] = useState(false)
     const toggleHistory = () => setShowHistory(!showHistory)
 
+    const handleDelete = (e, name) => {
+        e.preventDefault()
+        const historyLS = JSON.parse(localStorage.getItem('history'))
+        if (historyLS && historyLS[name]) {
+            // remove from local storage
+            delete historyLS[name]
+            localStorage.setItem('history', JSON.stringify(historyLS))
+            console.log("update local storage with key 'history'")
+
+            // remove from current state
+            setHistoryStories(prev => prev.filter(story => story.name != name))
+        }
+    }
+
     useEffect(() => {
         const fetchedReadingStories = async () => {
             const historyLS = JSON.parse(localStorage.getItem('history'))
@@ -72,10 +86,17 @@ const Header = () => {
                                                     <Link
                                                         className="py-0 my-1 text-success header__logo-link"
                                                         to={`/read/${story.name}/${story.id}`}
+                                                        style={{ "display": "block" }}
                                                     >
-                                                        <FontAwesomeIcon icon={faArrowRight} style={{ marginRight: "6px" }}/>
+                                                        <FontAwesomeIcon icon={faArrowRight} style={{ marginRight: "6px" }} />
                                                         Continue chapter {story.id}
                                                     </Link>
+                                                    <button
+                                                        className="text-danger header__delete-button"
+                                                        onClick={(e) => handleDelete(e, story.name)}
+                                                    >
+                                                        Delete
+                                                    </button>
                                                 </div>
                                             </div>
                                         </li>
@@ -85,7 +106,11 @@ const Header = () => {
                             ) : (
                                 <p className="p-2 m-3">No story</p>
                             )}
-                            {isLoading && (<p className="text-warning p-2 m-3">Loading...</p>)}
+                            {isLoading && (
+                                <div className="p-2 m-3">
+                                    <div className="component__spinner"></div>
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>

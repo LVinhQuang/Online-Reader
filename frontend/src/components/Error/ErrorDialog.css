@@ -3,15 +3,20 @@
 }
 
 .error-dialog__content {
-    top: 50%;
-    left: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 600px;
+    max-height: 500px;
     right: auto;
     bottom: auto;
-    margin-right: -50%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
     padding: 20px;
-    border-radius: 10px;
-    background-color: #fff;
+    border-radius: 12px;
+    background-color: #d87bba;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -24,10 +29,14 @@
 }
 
 .error-dialog__button {
-    padding: 10px 20px;
-    background-color: #007BFF;
+    padding: 10px;
+    background-color: #dad26e;
     color: #fff;
     border: none;
-    border-radius: 5px;
+    border-radius: 4px;
     cursor: pointer;
+}
+
+.error-dialog__button:hover {
+    background-color: #e9e49f;
 }
