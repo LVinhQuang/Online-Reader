@@ -2,7 +2,7 @@
 {
     position: relative;
     width: 200px;
-    height: 40px;
+    height: var(--height-button);
 }
 .dropdown-context
 {
@@ -11,10 +11,11 @@
     flex-direction:row;
     justify-content: center;
     align-items: center;
-    border: 1px solid #9d98c6;
+    border: 1px solid var(--color-hover);
     border-radius: 5px;
+    padding: 5px;
     width: 200px;
-    height: 40px;
+    height: var(--height-button);
     cursor: pointer;
 }
 
@@ -47,7 +48,7 @@
 .dropdown-listcontext-element
 {
     width: 150px;
-    border-bottom: 1px solid #9d98c6;
+    border-bottom: 1px solid var(--color-hover);
     display: flex;
     flex-direction: row;
     justify-content: center;

@@ -6,11 +6,9 @@ import styles from "./ReadLayout.module.scss";
 import Header from "./Header";
 import Nav from "./Nav";
 import Content from "./Content";
-
+import { getStoryByName,getDomains, getDetailChapterNovel } from "../../../utils/apiFunctions";
 
 const cx = classNames.bind(styles);
-const backendURL="http://localhost:3000";
-
 
 function ReadLayout({ children }) {
   const [listDomain, setListDomain] = useState([]);
@@ -19,147 +17,99 @@ function ReadLayout({ children }) {
   const [domain, setDomain] = useState("");
   const [currentElement, setCurrentElement] = useState("");
   const { name, id } = useParams();
-  const [nameStory, setNameStory]=useState('')
+  const [nameStory, setNameStory] = useState("");
   // reset when set chapterconfig is not json
   // const storedDataJson = localStorage.setItem(`${name}`,"");
-
   // get domain
   useLayoutEffect(() => {
-    const url = `${backendURL}/getdomains`;
-    fetch(url)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((jsonData) => {
-        // console.log(jsonData);
-        // Lưu dữ liệu vào state
-        setListDomain(jsonData.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  },[]);
-
+    getDomains().then((result) => {
+      if (result.success) {
+        setListDomain(result.data);
+      }
+    });
+    // setListDomain(result.data);
+  }, []);
 
   //Get chapters
   useLayoutEffect(() => {
-    if(!name ||!domain)
-      {
-        return;
-      }
-    const url = `${backendURL}/${domain}/${name}`;
-    fetch(url)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((jsonData) => {
+    if (!name || !domain) {
+      return;
+    }
+    getStoryByName(domain,name)
+      .then(result => { 
         // Lưu dữ liệu vào state
-        if(jsonData && jsonData.data && jsonData.data.title)
-          {
-            setNameStory(jsonData.data.title)
+        if (result.success) {
+          setNameStory(result.data.title);
+        }
+        if (result.success) {
+          const dataChapter = result.data.chapters;
+          if (dataChapter[parseInt(id)] && dataChapter[parseInt(id)].title) {
+            setCurrentElement(dataChapter[parseInt(id)].title);
           }
-          if(jsonData && jsonData.data && jsonData.data.chapters)
-            {
-                const dataChapter= jsonData.data.chapters;
-                if(dataChapter[parseInt(id)]&& dataChapter[parseInt(id)].title)
-                  {
-                    setCurrentElement(dataChapter[parseInt(id)].title);
-                  } 
-                  const titles = dataChapter.map(chapter => chapter.title);
-                  setChapters(titles);
-            }
-
+          const titles = dataChapter.map((chapter) => chapter.title);
+          setChapters(titles);
+        }
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, [name,domain,id]);
+  }, [name, domain, id]);
 
   //Get context
   useEffect(() => {
-    if(!name || !currentElement ||!domain)
-      {
-        setContext('No data');
-        return;
-      }
+    if (!name || !currentElement || !domain) {
+      setContext("No data");
+      return;
+    }
 
-    const currentChapter= currentElement.split(' ');
-    if(!currentChapter[1])
-      {
-        return;
-      }
-    let chapter= 'chuong-'+currentChapter[1].split(':')[0];
-    chapter=chapter.trim();
-    const url = `${backendURL}/${domain}/${name}/${chapter}`;
-    console.log(url);
+    const currentChapter = currentElement.split(" ");
+    if (!currentChapter[1]) {
+      return;
+    }
+    let chapter = "chuong-" + currentChapter[1].split(":")[0];
+    chapter = chapter.trim();
 
-    fetch(url)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((jsonData) => {
-        if(!jsonData)
-          {
-            setContext('No data');
-            return;
-          }
-        // Lưu dữ liệu vào state
-        setContext(jsonData.data.content);
+    getDetailChapterNovel(domain, name, chapter).then((result) => {
+      if (result?.success) {
+        // console.log("story fetched", result.data)
+        setContext(result?.data);
         const storageDataJson = localStorage.getItem(`history`);
-        if (storageDataJson)
-          {
-            let dataJson= JSON.parse(storageDataJson);
+        if (storageDataJson) {
+          let dataJson = JSON.parse(storageDataJson);
 
-            let dataStory= dataJson[name]
-            if (dataStory)
-              {
-                dataStory= {
-                  ...dataStory,
-                  domain:domain,
-                  id:id
-                }
-                dataJson[name]=dataStory
+          let dataStory = dataJson[name];
+          if (dataStory) {
+            dataStory = {
+              ...dataStory,
+              domain: domain,
+              id: id,
+            };
+            dataJson[name] = dataStory;
 
-                localStorage.setItem('history', JSON.stringify(dataJson));
-              }
-              else
-              {
-                dataStory= {
-                  domain:domain,
-                  id:id
-                }
-                dataJson[name]=dataStory
-                localStorage.setItem('history', JSON.stringify(dataJson));
-              }
+            localStorage.setItem("history", JSON.stringify(dataJson));
+          } else {
+            dataStory = {
+              domain: domain,
+              id: id,
+            };
+            dataJson[name] = dataStory;
+            localStorage.setItem("history", JSON.stringify(dataJson));
           }
-          else
-          {
-            let dataStory= {
-              domain:domain,
-              id:id
-            }
-            let dataJson={}
-            dataJson[name]=dataStory
+        } else {
+          let dataStory = {
+            domain: domain,
+            id: id,
+          };
+          let dataJson = {};
+          dataJson[name] = dataStory;
 
-            localStorage.setItem('history', JSON.stringify(dataJson));
-          }
-
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, [name,domain,currentElement,id]);
-
-
+          localStorage.setItem("history", JSON.stringify(dataJson));
+        }
+      } else {
+        setContext("No data");
+      }
+    });
+  }, [name, domain, currentElement, id]);
 
   useEffect(() => {
     let dataConfig = localStorage.getItem(`${name}`);
@@ -188,7 +138,7 @@ function ReadLayout({ children }) {
       };
       localStorage.setItem(`${name}`, JSON.stringify(data));
     }
-  }, [listDomain,name,id]);
+  }, [listDomain, name, id]);
 
   // insert data into local storage when domain changed
   useEffect(() => {
@@ -201,10 +151,14 @@ function ReadLayout({ children }) {
       };
       localStorage.setItem(`${name}`, JSON.stringify(data));
     }
-  }, [domain,name,id]);
+  }, [domain, name, id]);
   return (
     <div className={cx("readlayout")}>
-      <Header listDomain={listDomain} nameStory={nameStory} chapter={currentElement}/>
+      <Header
+        listDomain={listDomain}
+        nameStory={nameStory}
+        chapter={currentElement}
+      />
       <Nav
         currentElement={currentElement}
         position={true}
@@ -226,6 +180,7 @@ function ReadLayout({ children }) {
         id={id}
         context={context}
       />
+      <div className={cx('footer')}></div>
     </div>
   );
 }
