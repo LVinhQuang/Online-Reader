@@ -60,7 +60,7 @@ function Nav({
               const storageDataJsonStory = localStorage.getItem(`${name}`);
               if(storageDataJsonStory)
                 {
-                  let jsonStory= JSON.parse(storageDataJson)
+                  let jsonStory= JSON.parse(storageDataJsonStory)
                   jsonStory={
                     ...jsonStory,
                     domain:currentDomain
