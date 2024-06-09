@@ -78,3 +78,19 @@ export const getFeaturedStories = async (domain) => {
         handleApiError(err)
     }
 }
+
+export const getDetailChapterNovel = async (domain, name, chapter) => {
+    try {
+        const response = await api.get(`/${domain}/${name}/${chapter}`)
+        // console.log("featured stories", response.data)
+        
+            const data = response?.data?.data?.content
+            if(!data)
+                {
+                return { success: false, data: '' }
+            }
+        return { success: true, data: data }
+    } catch (err) {
+        handleApiError(err)
+    }
+}

@@ -9,7 +9,7 @@
     cursor: pointer;
     min-width: 50px;    
     display: flex;
-    height: 40px;
+    height: var(--height-button);
     justify-content: center;
     align-items: center;
 }
