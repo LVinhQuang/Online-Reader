@@ -90,11 +90,27 @@ export const getDetailChapterNovel = async (domain, name, chapter) => {
         const response = await api.get(`/${domain}/${name}/${chapter}`)
         // console.log("featured stories", response.data)
         
-            const data = response?.data?.data?.content
-            if(!data)
-                {
-                return { success: false, data: '' }
-            }
+        const data = response?.data?.data?.content
+        if(!data)
+            {
+            return { success: false, data: '' }
+        }
+        return { success: true, data: data }
+    } catch (err) {
+        handleApiError(err)
+    }
+}
+
+export const getDownloadTypes = async () => {
+    try {        
+        const response = await api.get('/download/types');             
+        const data = response?.data?.data
+
+        if(!data)
+        {
+            return { success: false, data: '' }
+        }
+        
         return { success: true, data: data }
     } catch (err) {
         handleApiError(err)

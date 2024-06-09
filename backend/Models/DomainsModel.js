@@ -3,7 +3,7 @@ const fs = require('fs');
 module.exports = class Domains {
     async GetAllDomains(){
         try {
-            let files = fs.readdirSync('./Services');
+            let files = fs.readdirSync('./Services/Domain');
             let domains = [];
             files.forEach(file => {
                 let domain = file.split('.')[0];
