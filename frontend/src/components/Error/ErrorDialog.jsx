@@ -2,7 +2,7 @@ import React from 'react';
 import Modal from 'react-modal';
 import './ErrorDialog.css'
 
-const ErrorDialog = ({ isOpen, message, onClose, btnTitle}) => {
+const ErrorDialog = ({ isOpen, message, onClose }) => {
     return (
         <Modal
             isOpen={isOpen}
@@ -16,7 +16,7 @@ const ErrorDialog = ({ isOpen, message, onClose, btnTitle}) => {
                 <h2 className="error-dialog__header">Oops! Something went wrong :(</h2>
                 <p>{message}</p>
                 <button onClick={onClose} className="error-dialog__button">
-                    {!btnTitle ? "Dismiss": btnTitle}
+                    Dismiss
                 </button>
             </div>
         </Modal>

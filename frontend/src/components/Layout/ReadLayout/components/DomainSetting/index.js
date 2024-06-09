@@ -31,7 +31,7 @@ function DomainSetting({ listDomain }) {
   return (
     <div className={cx("setting_domain")}>
       <div className={cx("title_setting")}>
-        <div className={cx("title")}>Chọn Domain</div>
+        <div className={cx("title")}>Source</div>
       </div>
       <div className={cx("domain_list")}>
         <div className={cx("list")}>

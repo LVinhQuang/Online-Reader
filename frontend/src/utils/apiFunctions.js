@@ -11,7 +11,6 @@ const handleApiError = (err) => {
     return { success: false, message: message };
 };
 
-
 export const getDomains = async () => {
     try {
         const response = await api.get('/getdomains')
@@ -49,9 +48,8 @@ export const searchStory = async (domain, query) => {
 export const getStoryByName = async (domain, name) => {
     try {
         const getPath = `/${domain}/${name}`
-        console.log("get story path", getPath)
+        // console.log("get story path", getPath)
         const response = await api.get(getPath)
-        console.log("response get name", response)
         return {
             success: true,
             data: response.data.data
@@ -82,6 +80,22 @@ export const getFeaturedStories = async (domain) => {
             }
         })
         return { success: true, data: stories }
+    } catch (err) {
+        handleApiError(err)
+    }
+}
+
+export const getDetailChapterNovel = async (domain, name, chapter) => {
+    try {
+        const response = await api.get(`/${domain}/${name}/${chapter}`)
+        // console.log("featured stories", response.data)
+        
+            const data = response?.data?.data?.content
+            if(!data)
+                {
+                return { success: false, data: '' }
+            }
+        return { success: true, data: data }
     } catch (err) {
         handleApiError(err)
     }
