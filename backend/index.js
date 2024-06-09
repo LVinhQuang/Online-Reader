@@ -4,6 +4,8 @@ const port = 3000;
 const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
+const DomainFactory = require('./Factory/DomainFactory');
+const DownloadFactory = require('./Factory/DownloadFactory');
 
 // Enable CORS
 app.use(
@@ -13,32 +15,31 @@ app.use(
   }),
 );
 
-
-
-// Get list domain in Services folder
-global.ListDomain = []
-let files = fs.readdirSync(path.resolve(__dirname,'./Services'));
-files.forEach(file => {
-    let domain = file.split('.')[0];    
-    global.ListDomain[domain] = `./Services/${domain}`;
-});
+DomainFactory.InitDomainCache(path.resolve(__dirname, './Services/Domain'));
+DownloadFactory.InitDownloadTypeCache(path.resolve(__dirname, './Services/DownloadFormat'));
 
 // Define the relative path to the folder you want to monitor
-const folderToMonitor = path.join(__dirname, 'Services/');
-fs.watch(folderToMonitor, (eventType, filename) => {
+const domainFolderMonitor = path.join(__dirname, 'Services/Domain');
+fs.watch(domainFolderMonitor, (eventType, filename) => {
     if (eventType === 'rename') {
-        const filePath = path.join(folderToMonitor, filename);
-        // console.log(`New file added: ${filePath}`);
-        // Perform your action here
-        global.ListDomain[filename] = `./Services/${filename}`;        
+        DomainFactory.InitDomainCache(path.resolve(__dirname, './Services/Domain'));
+    }
+});
+
+const downloadTypeFolderMonitor = path.join(__dirname, 'Services/DownloadFormat');
+fs.watch(downloadTypeFolderMonitor, (eventType, filename) => {
+    if (eventType === 'rename') {            
+        DownloadFactory.InitDownloadTypeCache(path.resolve(__dirname, './Services/DownloadFormat'));
     }
 });
 
 // Require router
-const NovelRouter = require('./Routers/NovelRouter');
 const DomainsRouter = require('./Routers/DomainsRouter');
+const NovelRouter = require('./Routers/NovelRouter');
+const DownloadRouter = require('./Routers/DownloadRouter');
 
 app.use('/getdomains', DomainsRouter);
+app.use('/download', DownloadRouter);
 app.use('/', NovelRouter);
 
 // Start server

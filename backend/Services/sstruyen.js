@@ -1,6 +1,6 @@
 const cheerio = require('cheerio');
 
-module.exports = class SsTruyen {
+module.exports = new class SsTruyen {
     constructor() {
         this.baseUrl = 'https://sstruyen.vn/';
         this.allChapterUrl = "https://sstruyen.vn/ajax.php?get_chapt&story_seo=";
