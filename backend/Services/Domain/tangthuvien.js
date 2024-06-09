@@ -227,6 +227,9 @@ module.exports = new class TangThuVien {
                 matchedNovels.push(novel);
             });
 
+            if(!totalPages)
+                totalPages = 1;
+
             result = {
                 totalPages: totalPages,
                 matchedNovels: matchedNovels
