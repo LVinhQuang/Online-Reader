@@ -107,6 +107,20 @@ function ReadLayout({ children }) {
         }
       } else {
         setContext("No data");
+        // const storageDataJson = localStorage.getItem(`history`);
+        // if (storageDataJson) {
+        //   let dataJson = JSON.parse(storageDataJson);
+        //   let dataStory = dataJson[name];
+        //   if(dataStory)
+        //     {
+        //       const currentDomain= dataStory.domain;
+        //       if(currentDomain)
+        //         {
+        //           setDomain(currentDomain)
+        //         }
+        //     }
+        // }
+
       }
     });
   }, [name, domain, currentElement, id]);
