@@ -4,7 +4,7 @@ const fs = require('fs');
 const DomainFactory = require('../../Factory/DomainFactory');
 module.exports = new class EPUB {
     async Download(req, res) {
-        const Domain = DomainFactory.getDomain(req.params.domain);
+        const Domain = DomainFactory.GetDomain(req.params.domain);
         let DetailNovel = await Domain.GetNovelDetail(req.params.name);
         let DetailChapter = await Domain.GetChapter(req.params.name, req.params.chapter);
         let title = DetailNovel.title;

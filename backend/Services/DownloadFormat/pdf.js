@@ -9,7 +9,7 @@ module.exports = new class PDF {
 
     async Download(req, res) {
         const doc = new PDFDocument();
-        const Domain = DomainFactory.getDomain(req.params.domain);
+        const Domain = DomainFactory.GetDomain(req.params.domain);
         let DetailChapter = await Domain.GetChapter(req.params.name, req.params.chapter);
         let title = DetailChapter.title;
         let chapter = DetailChapter.chapterTitle;
