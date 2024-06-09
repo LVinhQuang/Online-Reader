@@ -1,0 +1,54 @@
+
+.header__history {
+    position: relative;
+}
+
+.header__history-button {
+    background-color: #cc0e67be;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.header__history-button:hover {
+    background-color: #e664a0be;
+}
+
+.header__history-popup {
+    position: absolute;
+    top: 35px;
+    right: 0;
+    background-color: rgb(255, 242, 250);
+    border: 1px solid #e9ecef;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 1000;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #f393cb #ffe0f0;
+}
+
+.header__history-list {
+    list-style: none;
+    margin: 0;
+    padding: 10px;
+}
+
+.header__history-item {
+    padding: 5px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.header__history-item:last-child {
+    border-bottom: none;
+}
+
+.history-item__card-info {
+    padding: 10px 10px;
+    margin-left: 10px;
+}
