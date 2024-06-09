@@ -21,14 +21,14 @@ export const getDomains = async () => {
     }
 }
 
-export const searchStory = async (domain, query) => {
+export const searchStory = async (domain, query, page = 1) => {
     try {
-        const searchPath = `/${domain}/search?keyword=${query}`
+        const searchPath = `/${domain}/search?keyword=${query}&page=${page}`
         // console.log("search path", searchPath)
         const response = await api.get(searchPath)
-        const data = response.data.data.matchedNovels
-        if (data.length > 1) {
-            const novels = data.map((novel) => {
+        const data = response.data.data
+        if (data.matchedNovels.length > 1) {
+            const novels = data.matchedNovels.map((novel) => {
                 const splitArray = novel.link?.split('/')
                 return {
                     ...novel,
@@ -36,7 +36,7 @@ export const searchStory = async (domain, query) => {
                     source: domain
                 }
             })
-            return { success: true, data: novels }
+            return { success: true, data: novels, totalPages: data.totalPages }
         }
         return { success: true, data: null }
     } catch (err) {

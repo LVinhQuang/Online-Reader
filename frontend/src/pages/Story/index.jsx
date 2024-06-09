@@ -28,8 +28,8 @@ const Story = () => {
 
     useEffect(() => {
         const loadReadingSession = () => {
-            const storyHistory = localStorage.getItem('history')
-            if (!!storyHistory && storyHistory.hasOwnProperty(name)) {
+            const storyHistory = JSON.parse(localStorage.getItem('history'))
+            if (storyHistory && storyHistory[name]) {
                 setReadingSession({
                     name,
                     id: storyHistory.id,
@@ -79,12 +79,15 @@ const Story = () => {
                                 <div className="my-2">
                                     <h2>{story.title}</h2>
                                     <p className="py-0 my-0">Author: {story.author}</p>
-                                    <p className="py-0 my-0">{story.numberOfChapters} chapters</p>
+                                    <p className="py-0 my-0 d-block">{story.numberOfChapters} chapters</p>
 
                                     {readingSession && (
                                         <Link
                                             to={`/read/${readingSession.name}/${readingSession.id}`}
-                                        >Continue reading</Link>
+                                            style={{"textDecoration": "none"}}
+                                        >
+                                            <p className="text-success p-0 mx-0 my-2">Continue reading</p>
+                                        </Link>
                                     )}
                                 </div>
                                 <hr />
