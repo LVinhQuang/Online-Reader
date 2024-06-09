@@ -1,7 +1,7 @@
 const Epub = require("epub-gen");
 const path = require('path');
 const fs = require('fs');
-const DomainFactory = require('../../DomainFactory');
+const DomainFactory = require('../../Factory/DomainFactory');
 module.exports = new class EPUB {
     async Download(req, res) {
         const Domain = DomainFactory.getDomain(req.params.domain);

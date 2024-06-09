@@ -1,5 +1,5 @@
 const PDFDocument = require('pdfkit');
-const DomainFactory = require('../../DomainFactory');
+const DomainFactory = require('../../Factory/DomainFactory');
 const fs = require('fs');
 
 module.exports = new class PDF {

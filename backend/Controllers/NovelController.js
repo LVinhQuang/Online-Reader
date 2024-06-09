@@ -1,10 +1,10 @@
-const DomainFactory = require('../DomainFactory.js');
+const DomainFactory = require('../Factory/DomainFactory.js');
 //TODO: thay TangThuVien, Truyenfull thành DomainFactory -> Done
 module.exports = {
     GetFeaturedNovels: async function(req, res){
         try{
 
-            const Domain = DomainFactory.getDomain(req.params.domain);
+            const Domain = DomainFactory.GetDomain(req.params.domain);
 
             let Data = await Domain.GetFeaturedNovels();
             
@@ -19,7 +19,7 @@ module.exports = {
     GetNovelDetail: async function (req, res) {
         try {
 
-            const Domain = DomainFactory.getDomain(req.params.domain);            
+            const Domain = DomainFactory.GetDomain(req.params.domain);            
             let Data = await Domain.GetNovelDetail(req.params.name);
             res.status(200).json({ data: Data });
         }
@@ -32,7 +32,7 @@ module.exports = {
     GetChapter: async function (req, res) {
         try {
 
-            const Domain = DomainFactory.getDomain(req.params.domain);
+            const Domain = DomainFactory.GetDomain(req.params.domain);
             let Data = await Domain.GetChapter(req.params.name, req.params.chapter);
             res.status(200).json({ data: Data });
         }
@@ -44,7 +44,7 @@ module.exports = {
 
     SearchNovel: async function (req, res) {
         try {
-            const Domain = DomainFactory.getDomain(req.params.domain);
+            const Domain = DomainFactory.GetDomain(req.params.domain);
             let Data = await Domain.SearchNovel(req.query.keyword,req.query.page);
             res.status(200).json({ data: Data });
         }
