@@ -5,6 +5,7 @@ import FeaturedStories from '../../components/Story/Featured/FeaturedStories';
 import SearchBar from '../../components/Search/SearchBar';
 import { Container, Row } from 'react-bootstrap'
 import ErrorDialog from '../../components/Error/ErrorDialog';
+import SearchResult from '../../components/Search/SearchResult';
 import "../../index.css"
 
 const Home = () => {
@@ -14,6 +15,8 @@ const Home = () => {
   const [source, setSource] = useState('');
   const [sources, setSources] = useState([]);
   const [error, setError] = useState(null)
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1)
 
   useEffect(() => {
     const fetchDomains = async () => {
@@ -40,14 +43,31 @@ const Home = () => {
   const handleSearch = async () => {
     const searchResult = await searchStory(source, query);
     if (searchResult.success) {
+      setPage(1)
       setStories(searchResult.data)
+      setTotalPages(searchResult.totalPages)
     } else {
       setError(searchResult.message)
     }
   };
-  
+
   const handleCloseErrorDialog = () => {
     setError(null);
+  };
+
+  const handlePageChange = async (event, value) => {
+    setPage(value);
+    // Here you can also fetch data for the new page if you're loading data from an API
+    const searchResult = await searchStory(source, query, value);
+    if (searchResult && searchResult.success) {
+      console.log("fetched search result when user click pagination")
+      setStories(searchResult.data)
+      setTotalPages(searchResult.totalPages)
+    } else if (searchResult) {
+      setError(searchResult.message)
+    } else {
+      setError("No Data received from API. Try again later.")
+    }
   };
 
   return (
@@ -62,7 +82,8 @@ const Home = () => {
           setSource={setSource}
           onSearch={handleSearch}
         />
-        <StoryList stories={stories} />
+        <SearchResult stories={stories} page={page} totalPages={totalPages} onPageChange={handlePageChange} />
+        {/* <StoryList stories={stories} /> */}
       </Row>
       <hr />
       <Row className="justify-content-center align-items-center gap-2 mt-2">
