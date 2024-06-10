@@ -7,6 +7,7 @@ import Header from "./Header";
 import Nav from "./Nav";
 import Content from "./Content";
 import { getStoryByName,getDomains, getDetailChapterNovel, getDownloadTypes } from "../../../utils/apiFunctions";
+import { faL } from "@fortawesome/free-solid-svg-icons";
 
 const cx = classNames.bind(styles);
 const backendURL = "http://localhost:3000";
@@ -21,7 +22,7 @@ function ReadLayout({ children }) {
   const [nameStory, setNameStory]=useState('');
   const [downloadUrl, setDownloadUrl] = useState("");
   const [downloadTypeList, setDownloadTypeList] = useState([]);  
-
+  const[spiner, setSpiner]=useState(true)
   // reset when set chapterconfig is not json
   // const storedDataJson = localStorage.setItem(`${name}`,"");
   // get domain
@@ -70,7 +71,6 @@ function ReadLayout({ children }) {
       setContext("No data");
       return;
     }
-
     const currentChapter = currentElement.split(" ");
     if (!currentChapter[1]) {
       return;
@@ -80,11 +80,13 @@ function ReadLayout({ children }) {
 
     setDownloadUrl(`${backendURL}/download/${domain}/${name}/${chapter}`);
     console.log(downloadUrl);
-
+    setSpiner(true)
     getDetailChapterNovel(domain, name, chapter).then((result) => {
       if (result?.success) {
         // console.log("story fetched", result.data)
         setContext(result?.data);
+        setSpiner(false)
+
         const storageDataJson = localStorage.getItem(`history`);
         if (storageDataJson) {
           let dataJson = JSON.parse(storageDataJson);
@@ -119,6 +121,8 @@ function ReadLayout({ children }) {
         }
       } else {
         setContext("No data");
+        setSpiner(false)
+
         // const storageDataJson = localStorage.getItem(`history`);
         // if (storageDataJson) {
         //   let dataJson = JSON.parse(storageDataJson);
@@ -135,7 +139,7 @@ function ReadLayout({ children }) {
 
       }
     });
-  }, [name, domain, currentElement, id]);
+  }, [name, domain, currentElement]);
 
   useEffect(() => {
     let dataConfig = localStorage.getItem(`${name}`);
@@ -197,10 +201,14 @@ function ReadLayout({ children }) {
         id={id}
       />
       <div className={cx("container")}>
-        <Content context={context} name={name} id={id} 
+        {spiner? (
+                <div className="d-flex justify-content-center align-items-center vh-100">
+                    <div className="component__spinner"></div>
+                </div>
+            ):(<Content context={context} name={name} id={id} 
           downloadTypeList={downloadTypeList}
           downloadUrl={downloadUrl}
-        />
+        />)}
       </div>
       <Nav
         currentElement={currentElement}

@@ -6,13 +6,13 @@ import ButtonReadPage from '../ButtonReadPage';
 
 const cx= classNames.bind(styles)
 
-function DownloadGroup({downloadTypeList,downloadUrl}) {
+function DownloadGroup({ downloadTypeList, downloadUrl, name, id }) {
     async function DownloadApi(downloadType) {            
-        try {            
+        try {
             const response = await fetch(`${downloadUrl}/${downloadType}`);
             if (response.ok) {
                 const blob = await response.blob();
-                FileSaver.saveAs(blob, `book.${downloadType}`);
+                FileSaver.saveAs(blob, `${name}_chuong-${id}.${downloadType}`);
             } else {
                 console.error('Failed to download file');
             }
