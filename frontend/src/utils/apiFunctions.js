@@ -32,7 +32,7 @@ export const searchStory = async (domain, query, page = 1) => {
                 const splitArray = novel.link?.split('/')
                 return {
                     ...novel,
-                    nameUrl: splitArray[splitArray?.length - 1],
+                    nameUrl: splitArray[splitArray.length - 1] != "" ? splitArray[splitArray.length - 1] : splitArray[splitArray.length - 2],
                     source: domain
                 }
             })
