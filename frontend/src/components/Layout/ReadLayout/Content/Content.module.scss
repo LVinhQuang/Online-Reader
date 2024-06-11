@@ -15,7 +15,7 @@
     box-shadow:0 0.5rem 1rem rgba(0, 0, 0, 0.15);
     // padding: 10px;
 }
-.action{
+.content__action{
     position: fixed;
     left: 86%;
     top: 27%;
@@ -23,18 +23,18 @@
     flex-direction: column;
     font-size: 20px;
 }
-.icon
+.content__action-icon
 {
     margin: 5px;
     padding: 5px;
     cursor: pointer;
     color: var(--color-button);
 }
-.icon:hover{
+.content__action-icon:hover{
     color: var(--color-hover);
 
 }
-.icon-elements
+.icon__elements
 {
     color: black;
     display: grid;
@@ -50,7 +50,7 @@
 {
     color: var(--color-button);
 }
-.icon-element-context{
+.icon__element-context{
     display: flex;
     flex-direction: column;
     justify-content: center;

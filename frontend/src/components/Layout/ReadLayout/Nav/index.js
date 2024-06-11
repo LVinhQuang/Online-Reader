@@ -81,14 +81,14 @@ function Nav({
   }
   return (
     <div className={cx("nav")}>
-      <div className={cx("nav-domains")}>
+      <div className={cx("nav__domains")}>
         {position &&
           listDomain &&
           listDomain.map((element, index) => {
             return (
               <div
                 key={index}
-                className={cx("domain", { active: element === domain })}
+                className={cx("nav__domains-domain", { active: element === domain })}
                 onClick={() => setDomain(element)}
               >
                 {" "}
@@ -97,7 +97,7 @@ function Nav({
             );
           })}
       </div>
-      <div className={cx("nav-action")}>
+      <div className={cx("nav__action")}>
         {isPrevious && (
           <ButtonReadPage >
             <FontAwesomeIcon icon={faAnglesLeft} onClick={() => HandlerActionPrevious()}></FontAwesomeIcon>

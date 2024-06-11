@@ -17,7 +17,7 @@ function Header({ listDomain, nameStory, chapter }) {
             <span className="header__logo-rest">nline story reader</span>
         </Link>
         <Title name={nameStory} chapter={chapter} />
-        <div className={cx('history_setting')}>
+        <div className={cx('header__history-setting')}>
         <Setting listDomain={listDomain}/>
         <History />
         </div>

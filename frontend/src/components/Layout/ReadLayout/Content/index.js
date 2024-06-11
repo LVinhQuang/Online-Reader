@@ -95,19 +95,19 @@ function Content({ context, name, id, downloadTypeList, downloadUrl }) {
 
 
       </span>
-      <div className={cx("action")}>
-        <div className={cx("icon")}>
+      <div className={cx("content__action")}>
+        <div className={cx("content__action-icon")}>
           <FontAwesomeIcon
             icon={faTextWidth}
             onClick={() => setShowSize((prev) => !prev)}
           />
-          <div className={cx("icon-elements")}>
+          <div className={cx("icon__elements")}>
             {showSize &&
               sizeText.map((element, index) => {
                 return (
                   <div
                     key={index}
-                    className={cx("icon-element-context", {
+                    className={cx("icon__element-context", {
                       active: sizeText[index] === size,
                     })}
                     onClick={() => setSize(sizeText[index])}
@@ -118,18 +118,18 @@ function Content({ context, name, id, downloadTypeList, downloadUrl }) {
               })}
           </div>
         </div>
-        <div className={cx("icon")}>
+        <div className={cx("content__action-icon")}>
           <FontAwesomeIcon
             icon={faFont}
             onClick={() => setShowFont((prev) => !prev)}
           />
-          <div className={cx("icon-elements")}>
+          <div className={cx("icon__elements")}>
             {showFont &&
               fontText.map((element, index) => {
                 return (
                   <div
                     key={index}
-                    className={cx("icon-element-context", {
+                    className={cx("icon__element-context", {
                       active: fontText[index] === font,
                     })}
                     onClick={() => setFont(fontText[index])}
@@ -140,18 +140,18 @@ function Content({ context, name, id, downloadTypeList, downloadUrl }) {
               })}
           </div>
         </div>
-        <div className={cx("icon")}>
+        <div className={cx("content__action-icon")}>
           <FontAwesomeIcon
             icon={faHighlighter}
             onClick={() => setShowColor((prev) => !prev)}
           />
-          <div className={cx("icon-elements")}>
+          <div className={cx("icon__elements")}>
             {showColor &&
               colorText.map((element, index) => {
                 return (
                   <div
                     key={index}
-                    className={cx("icon-element-context", {
+                    className={cx("icon__element-context", {
                       active: colorText[index] === color,
                     })}
                     onClick={() => setColor(colorText[index])}
@@ -162,18 +162,18 @@ function Content({ context, name, id, downloadTypeList, downloadUrl }) {
               })}
           </div>
         </div>
-        <div className={cx("icon")}>
+        <div className={cx("content__action-icon")}>
           <FontAwesomeIcon
             icon={faTextHeight}
             onClick={() => setShowLine((prev) => !prev)}
           />
-          <div className={cx("icon-elements")}>
+          <div className={cx("icon__elements")}>
             {showLine &&
               lineHeight.map((element, index) => {
                 return (
                   <div
                     key={index}
-                    className={cx("icon-element-context", {
+                    className={cx("icon__element-context", {
                       active: lineHeight[index] === line,
                     })}
                     onClick={() => setLine(lineHeight[index])}
@@ -184,18 +184,18 @@ function Content({ context, name, id, downloadTypeList, downloadUrl }) {
               })}
           </div>
         </div>
-        <div className={cx("icon")}>
+        <div className={cx("content__action-icon")}>
           <FontAwesomeIcon
             icon={faPalette}
             onClick={() => setShowBackground((prev) => !prev)}
           />
-          <div className={cx("icon-elements")}>
+          <div className={cx("icon__elements")}>
             {showBackground &&
               backgroundColor.map((element, index) => {
                 return (
                   <div
                     key={index}
-                    className={cx("icon-element-context", {
+                    className={cx("icon__element-context", {
                       active: backgroundColor[index] === background,
                     })}
                     onClick={() => setBackground(backgroundColor[index])}

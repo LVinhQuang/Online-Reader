@@ -23,14 +23,14 @@ function Dropdown({ listElements, currentElement, position, name }) {
   return (
     <div className={cx("dropdown")}>
       <div
-        className={cx("dropdown-context")}
+        className={cx("dropdown__context")}
         onClick={() => HandlerDisplayDropdown()}
       >
         <span>{context}</span>
       </div>
       <div
-        className={cx("dropdown-listcontext", {
-          "display-none": displayNode,
+        className={cx("dropdown__listcontext", {
+          "display--none": displayNode,
           top: position,
           bottom: !position,
         })}
@@ -40,11 +40,11 @@ function Dropdown({ listElements, currentElement, position, name }) {
             return (
               <div
                 key={index}
-                className={cx("dropdown-listcontext-element")}
+                className={cx("dropdown__listcontext-element")}
                 onClick={() => HandlerSetContext(index)}
               >
                 <div
-                  className={cx("dropdown-listcontext-element-context", {
+                  className={cx("dropdown__listcontext-element-context", {
                     active: element === context,
                   })}
                 >

@@ -7,11 +7,11 @@ const cx = classNames.bind(styles);
 function Title({name, chapter}) {
   return (
     <div className={cx("title")}>
-      <div className ={cx('title_name')}>
+      <div className ={cx('title__name')}>
         <span>{name}</span>
       </div>
       <div>
-        <span className ={cx('title_chapter')}>
+        <span className ={cx('title__chapter')}>
             {chapter}
         </span>
       </div>

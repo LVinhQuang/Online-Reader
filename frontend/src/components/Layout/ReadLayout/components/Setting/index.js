@@ -20,7 +20,7 @@ function Setting({listDomain}) {
   return (
 
     <div className={cx("setting")}>
-        <div className={cx('icon_setting')}>
+        <div className={cx('setting__icon')}>
             <FontAwesomeIcon icon={faGear}  onClick={ShowDomainSetting}/>
         </div>
       {

@@ -200,7 +200,7 @@ function ReadLayout({ children }) {
         name={name}
         id={id}
       />
-      <div className={cx("container")}>
+      <div className={cx("readlayout__container")}>
         {spiner? (
                 <div className="d-flex justify-content-center align-items-center vh-100">
                     <div className="component__spinner"></div>
@@ -218,7 +218,7 @@ function ReadLayout({ children }) {
         id={id}
         context={context}
       />
-      <div className={cx('footer')}></div>
+      <div className={cx('readlayout__footer')}></div>
     </div>
   );
 }

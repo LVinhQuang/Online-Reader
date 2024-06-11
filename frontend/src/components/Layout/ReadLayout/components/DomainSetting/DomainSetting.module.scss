@@ -1,4 +1,4 @@
-.setting_domain
+.setting
 {
     display: flex;
     flex-direction: column;
@@ -24,20 +24,20 @@
         transform: translateY(0); /* Di chuyển phần tử về vị trí ban đầu */
     }
 }
-.title_setting
+.setting__title
 {
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 20px 0 0 20px;
 }
-.domain_list{
+.setting__domains{
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
 }
-.domain_name
+.setting__domains-domain-name
 {
     color: black;;
     margin: 3px;
@@ -50,18 +50,18 @@
     justify-content: center;
     cursor: pointer;
 }
-.domain_name:hover{
+.setting__domains-domain-name:hover{
     background-color:var(--color-hover);
     color:white
 
 }
-.title
+.setting__title-format
 {
     align-items: center;
     color: black;
     font-size: 20px;
 }
-.list
+.setting__domains-list
 {
     display: grid;
     grid-template-columns: repeat(2, 2fr); /* Tạo hai cột bằng độ rộng tự động */

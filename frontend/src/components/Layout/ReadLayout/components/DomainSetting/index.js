@@ -29,17 +29,17 @@ function DomainSetting({ listDomain }) {
     // onUpdateSeting()
   }
   return (
-    <div className={cx("setting_domain")}>
-      <div className={cx("title_setting")}>
-        <div className={cx("title")}>Source</div>
+    <div className={cx("setting")}>
+      <div className={cx("setting__title")}>
+        <div className={cx("setting__title-format")}>Source</div>
       </div>
-      <div className={cx("domain_list")}>
-        <div className={cx("list")}>
+      <div className={cx("setting__domains")}>
+        <div className={cx("setting__domains-list")}>
           {listDomain &&
             listDomain.map((domain, index) => {
               return (
                 <div
-                  className={cx("domain_name", {
+                  className={cx("setting__domains-domain-name", {
                     active: listDomain[index] === active,
                   })}
                   key={index}
