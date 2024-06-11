@@ -69,6 +69,7 @@ function ReadLayout({ children }) {
   useEffect(() => {
     if (!name || !currentElement || !domain) {
       setContext("No data");
+      setSpiner(false)
       return;
     }
     const currentChapter = currentElement.split(" ");
@@ -189,6 +190,7 @@ function ReadLayout({ children }) {
         listDomain={listDomain}
         nameStory={nameStory}
         chapter={currentElement}
+        name={name}
       />
       <Nav
         currentElement={currentElement}
