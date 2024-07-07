@@ -23,7 +23,7 @@ function Signup() {
                 <div className="inputs">
                     <div className="input">
                         <img src={personIcon} alt="user icon" />
-                        <input type="text" placeholder="Username" value={displayName} onChange={(e) => setDisplayName(e.target.value)}/>
+                        <input type="text" placeholder="Display name" value={displayName} onChange={(e) => setDisplayName(e.target.value)}/>
                     </div>
 
                     <div className="input">
