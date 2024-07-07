@@ -2,6 +2,8 @@ import Home from "../pages/Home";
 import Story from "../pages/Story"
 import Read from "../pages/Read";
 import Information from "../pages/Information";
+import Login from "../pages/Login";
+import Signup from "../pages/Signup";
 
 import { ReadLayout } from "../components/Layout";
 
@@ -11,6 +13,8 @@ const publicRoutes = [
   { path: "/stories/:domain/:name", component: Story},
   { path: "/read/:name/:id", component: Read, layout: ReadLayout },
   { path: "/information", component: Information, layout: null },
+  { path: "/login", component: Login, layout: null},
+  { path: "/signup", component: Signup, layout: null},
 ];
 
 // Routes will be used in private environment

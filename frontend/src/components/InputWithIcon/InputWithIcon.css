@@ -1,0 +1,25 @@
+.inputs {
+    width: 380px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.inputs .input {
+    background-color: #eaeaea;
+    margin: 10px 0;
+}
+
+.inputs input {
+    margin: 10px 0;
+    background: transparent;
+    border:none;
+    outline: none;
+    padding: 10px;
+    width: 300px;
+}
+
+.inputs img {
+    margin: 0 5px 0px 15px;
+}

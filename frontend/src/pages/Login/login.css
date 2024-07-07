@@ -1,0 +1,98 @@
+.big-container {
+    margin: 0;
+    padding: 20px;
+    height: 100vh;
+    min-width: 600px;
+    background: linear-gradient(#2A00B7,#42006C);
+}
+
+.signup-box {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    align-items: center;
+    padding-bottom: 30px;
+    background-color: white;
+    width: 500px;
+    min-width: 500px;
+}
+
+.header {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header .text {
+    color: #482f98;
+}
+
+.header .underline {
+    background-color: #482f98;
+    height: 3px;
+    width: 50%;
+}
+
+
+/* Inputs */
+
+.inputs {
+    width: 380px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.inputs .input {
+    background-color: #eaeaea;
+    margin: 10px 0;
+}
+
+.inputs input {
+    margin: 10px 0;
+    background: transparent;
+    border:none;
+    outline: none;
+    padding: 10px;
+    width: 300px;
+}
+
+.inputs img {
+    margin: 0 5px 0px 15px;
+}
+
+/* Submit */
+
+.have-account {
+    width: 380px;
+    padding: 0 20px;
+
+}
+
+.submit-container .signup-button {
+    border-radius: 10px;
+    background-color: #FFA500;
+    color: white;
+    border: none;
+    padding: 5px;
+    margin-top: 20px;
+    width: 340px;
+    display: block;
+    text-decoration: none;
+    text-align: center;
+}
+
+.submit-container .login-button {
+    border-radius: 10px;
+    background-color: #4f2eb1;
+    color: white;
+    border: none;
+    padding: 5px;
+    margin-top: 20px;
+    width: 340px;
+
+}

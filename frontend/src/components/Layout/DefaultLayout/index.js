@@ -1,5 +1,4 @@
 import Header from "./Header";
-import SiderBar from "./SiderBar";
 
 function DefaultLayout({children}) {
     return <div>

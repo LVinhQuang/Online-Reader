@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import GlobalStyles from "./components/GlobalStyles";
+import './config/firebase-config'
 
 // First: When u want to change or set css for all pages in React App
 // Please set css in GlobalStyles.scss, following this path: ./components/GlobalStyles/GlobalStyles.scss
