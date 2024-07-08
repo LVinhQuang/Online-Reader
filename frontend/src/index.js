@@ -4,13 +4,16 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import GlobalStyles from "./components/GlobalStyles";
 import './config/firebase-config'
+import { ErrorBoundary } from "./utils/ErrorBoundary";
 
 // First: When u want to change or set css for all pages in React App
 // Please set css in GlobalStyles.scss, following this path: ./components/GlobalStyles/GlobalStyles.scss
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <GlobalStyles>
-      <App />
+      <ErrorBoundary>
+        <App />
+      </ErrorBoundary>
     </GlobalStyles>
 );
 

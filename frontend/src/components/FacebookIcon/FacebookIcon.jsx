@@ -1,11 +1,13 @@
+import { useAsyncError } from '../../utils/useAsyncError';
+
 import FacebookIcon from '@mui/icons-material/Facebook';
 import { getAuth, FacebookAuthProvider, signInWithPopup } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
-
 import React from 'react'
 
 export default () => {
     const navigate = useNavigate();
+    const throwError = useAsyncError();
 
     const handleFacebookLogin = () => {
         const provider = new FacebookAuthProvider();
@@ -18,6 +20,9 @@ export default () => {
                 const accessToken = credential.accessToken;
                 
                 navigate('/');
+            })
+            .catch((e) => {
+                throwError(e);
             })
     }
 
