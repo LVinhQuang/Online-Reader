@@ -71,6 +71,15 @@
     padding: 0 20px;
 }
 
+.error-message {
+    width: 340px;
+    color: red;
+}
+
+.have-account {
+    margin-top: 10px;
+}
+
 .submit-container .signup-button {
     width: 340px;
     border-radius: 10px;

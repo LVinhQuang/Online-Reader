@@ -11,6 +11,7 @@ function Signup() {
     const [displayName, setDisplayName] = useState('');
     const [email, setEmail] = useState('');
     const [password,setPassword] = useState('');
+    const [errorMess, setErrorMess] = useState('');
 
     return (
         <div className="big-container">
@@ -37,9 +38,11 @@ function Signup() {
                     </div>
                 </div>
 
+                <div className="error-message">{errorMess}</div>
+
                 <div className="submit-container">
                     <div className="have-account">Already have an account? <a href="/login">Login</a></div>
-                    <SignupButton className="signup-button" signupData={{displayName, email, password}}/>
+                    <SignupButton className="signup-button" signupData={{displayName, email, password}} setErrorMess={setErrorMess}/>
                 </div>
             </div>
 

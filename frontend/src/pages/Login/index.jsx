@@ -12,7 +12,8 @@ import MyFacebookIcon from '../../components/FacebookIcon/FacebookIcon';
 function Login() {
 
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState(''); 
+    const [password, setPassword] = useState('');
+    const [errorMess, setErrorMess] = useState('');
 
     return (
         <div className="big-container">
@@ -34,10 +35,12 @@ function Login() {
                     </div>
                 </div>
 
+                <div className="error-message">{errorMess}</div>
+
                 <div className="forgot-password" style={{margin: "40px 0 0 0"}}>Forgot your password? <a href="/">Click here</a></div>
                 
                 <div className="submit-container">
-                    <LoginButton className="login-button" loginData={{email,password}}/>
+                    <LoginButton className="login-button" loginData={{email,password}} setErrorMess={setErrorMess}/>
                     <a href='/signup' className="signup-button">Sign up</a>
                 </div>
                 <div className="login-with">
