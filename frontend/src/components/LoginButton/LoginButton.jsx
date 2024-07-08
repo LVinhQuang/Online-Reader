@@ -13,7 +13,7 @@ export default (props) => {
         navigate('/');
       })
       .catch((error) => {
-        console.log(error)
+        console.log(error.code)
       })
   }
 

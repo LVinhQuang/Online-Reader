@@ -6,7 +6,7 @@
     background: linear-gradient(#2A00B7,#42006C);
 }
 
-.signup-box {
+.form-box {
     display: flex;
     flex-direction: column;
     margin: auto;
@@ -67,10 +67,9 @@
 
 /* Submit */
 
-.have-account {
+.form-box .forgot-password {
     width: 380px;
     padding: 0 20px;
-
 }
 
 .submit-container .signup-button {
@@ -95,4 +94,8 @@
     margin-top: 20px;
     width: 340px;
 
+}
+
+.form-box .login-with {
+    margin-top: 10px;
 }
