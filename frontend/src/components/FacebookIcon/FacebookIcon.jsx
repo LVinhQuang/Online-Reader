@@ -16,7 +16,6 @@ export default () => {
                 console.log(user);
                 const credential = FacebookAuthProvider.credentialFromResult(result);
                 const accessToken = credential.accessToken;
-                console.log("TOKEN: ",accessToken);
                 
                 navigate('/');
             })

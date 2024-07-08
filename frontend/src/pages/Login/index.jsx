@@ -37,7 +37,7 @@ function Login() {
 
                 <div className="error-message">{errorMess}</div>
 
-                <div className="forgot-password" style={{margin: "40px 0 0 0"}}>Forgot your password? <a href="/">Click here</a></div>
+                <div className="forgot-password" style={{margin: "40px 0 0 0"}}>Forgot your password? <a href="/forgot-password">Click here</a></div>
                 
                 <div className="submit-container">
                     <LoginButton className="login-button" loginData={{email,password}} setErrorMess={setErrorMess}/>

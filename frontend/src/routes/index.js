@@ -4,6 +4,7 @@ import Read from "../pages/Read";
 import Information from "../pages/Information";
 import Login from "../pages/Login";
 import Signup from "../pages/Signup";
+import ForgotPassword from "../pages/ForgotPassword";
 
 import { ReadLayout } from "../components/Layout";
 
@@ -15,6 +16,7 @@ const publicRoutes = [
   { path: "/information", component: Information, layout: null },
   { path: "/login", component: Login, layout: null},
   { path: "/signup", component: Signup, layout: null},
+  {path: "/forgot-password", component: ForgotPassword, layout: null}
 ];
 
 // Routes will be used in private environment
