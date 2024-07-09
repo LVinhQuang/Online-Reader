@@ -2,8 +2,10 @@ import axios from "axios"
 
 // back-end url
 export const api = axios.create({
-    baseURL: "http://localhost:3000"
+    baseURL: process.env.REACT_APP_BACKEND_API
 })
+
+console.log(process.env.REACT_APP_BACKEND_API);
 
 const handleApiError = (err) => {
     console.error('API error:', err);
