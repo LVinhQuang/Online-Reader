@@ -1,0 +1,65 @@
+.HistoryCard__container {
+    display: flex;
+    margin: 12px;
+    padding: 6px;
+    border: 1px solid rgb(212, 212, 212);
+    background-color: rgb(235, 235, 235);
+    border-radius: 3px;
+    flex-direction: column;
+    width: 156px;
+}
+
+.HistoryCard__item {
+    height: 225px;
+    width: 144px;
+    position: relative;
+    -webkit-transition: all .1s ease-in-out;
+    transition: all .1s ease-in-out;
+}
+
+.HistoryCard__item:hover {
+    -webkit-transform: scale(1.05);
+    -ms-transform: scale(1.05);
+    transform: scale(1.05)
+}
+
+.HistoryCard__itemImg {
+    box-shadow: 0 1px 2px #B5B5B5;
+    width: 144px;
+    height: 225px;
+    border-radius: 3px;
+}
+
+.HistoryCard__itemTitle {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    color: #f4f4f4;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 5px 0;
+    text-shadow: 1px 2px 2px #000;
+    font-size: 12px;
+    display: block;
+    margin-top: 2px;
+    text-align: center;
+    font-family: 'Roboto Condensed',Tahoma,sans-serif
+}
+
+.HistoryCard__domain {
+    text-align: center;
+    font-style: italic;
+    font-size: small;
+    color: #6c6c6c;
+    margin-top: 5px;
+}
+
+.HistoryCard__chapter {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.HistoryCard__deleteBtn {
+    background-color: white;
+    border-radius: 5px;
+}

@@ -5,8 +5,6 @@ export const api = axios.create({
     baseURL: process.env.REACT_APP_BACKEND_API
 })
 
-console.log(process.env.REACT_APP_BACKEND_API);
-
 const handleApiError = (err) => {
     console.error('API error:', err);
     const message = !err ? "Server error." : err.message

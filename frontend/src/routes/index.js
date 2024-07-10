@@ -5,6 +5,7 @@ import Information from "../pages/Information";
 import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import ForgotPassword from "../pages/ForgotPassword";
+import History from "../pages/History/History";
 
 import { ReadLayout } from "../components/Layout";
 
@@ -12,6 +13,7 @@ import { ReadLayout } from "../components/Layout";
 const publicRoutes = [
   { path: "/", component: Home,},
   { path: "/stories/:domain/:name", component: Story},
+  {path: "/history", component: History},
   { path: "/read/:name/:id", component: Read, layout: ReadLayout },
   { path: "/information", component: Information, layout: null },
   { path: "/login", component: Login, layout: null},

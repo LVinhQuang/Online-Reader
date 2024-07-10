@@ -1,6 +1,8 @@
 import classNames from "classnames/bind";
 import { useState, useEffect, useLayoutEffect } from "react";
 import { useParams } from "react-router-dom";
+import {getAuth} from "firebase/auth"
+import {getFirestore, collection, doc, setDoc} from "firebase/firestore"
 
 import styles from "./ReadLayout.module.scss";
 import Header from "./Header";
@@ -22,7 +24,7 @@ function ReadLayout({ children }) {
   const [nameStory, setNameStory]=useState('');
   const [downloadUrl, setDownloadUrl] = useState("");
   const [downloadTypeList, setDownloadTypeList] = useState([]);  
-  const[spiner, setSpiner]=useState(true)
+  const [spiner, setSpiner]=useState(true)
   // reset when set chapterconfig is not json
   // const storedDataJson = localStorage.setItem(`${name}`,"");
   // get domain
@@ -80,45 +82,66 @@ function ReadLayout({ children }) {
     chapter = chapter.trim();    
 
     setDownloadUrl(`${backendURL}/download/${domain}/${name}/${chapter}`);
-    console.log(downloadUrl);
+
     setSpiner(true)
     getDetailChapterNovel(domain, name, chapter).then((result) => {
       if (result?.success) {
         // console.log("story fetched", result.data)
         setContext(result?.data);
         setSpiner(false)
+        
 
-        const storageDataJson = localStorage.getItem(`history`);
-        if (storageDataJson) {
-          let dataJson = JSON.parse(storageDataJson);
+        // //Add to local storage
+        // const storageDataJson = localStorage.getItem(`history`);
+        // if (storageDataJson) {
+        //   let dataJson = JSON.parse(storageDataJson);
 
-          let dataStory = dataJson[name];
-          if (dataStory) {
-            dataStory = {
-              ...dataStory,
+        //   let dataStory = dataJson[name];
+        //   if (dataStory) {
+        //     dataStory = {
+        //       ...dataStory,
+        //       domain: domain,
+        //       id: id,
+        //     };
+        //     dataJson[name] = dataStory;
+
+        //     localStorage.setItem("history", JSON.stringify(dataJson));
+        //   } else {
+        //     dataStory = {
+        //       domain: domain,
+        //       id: id,
+        //     };
+        //     dataJson[name] = dataStory;
+        //     localStorage.setItem("history", JSON.stringify(dataJson));
+        //   }
+        // } else {
+        //   let dataStory = {
+        //     domain: domain,
+        //     id: id,
+        //   };
+        //   let dataJson = {};
+        //   dataJson[name] = dataStory;
+
+        //   localStorage.setItem("history", JSON.stringify(dataJson));
+        // }
+
+        /// ----- Add history to firestore
+        const auth = getAuth();
+        const db = getFirestore();
+        if (auth.currentUser) {
+          try {
+            let uid = auth.currentUser.uid;
+            let curStory = {
               domain: domain,
-              id: id,
-            };
-            dataJson[name] = dataStory;
-
-            localStorage.setItem("history", JSON.stringify(dataJson));
-          } else {
-            dataStory = {
-              domain: domain,
-              id: id,
-            };
-            dataJson[name] = dataStory;
-            localStorage.setItem("history", JSON.stringify(dataJson));
+              name: name,
+              chapter: chapter
+            }
+            let docRef = doc(db,"users",uid, "history", name)
+            setDoc(docRef, curStory)
           }
-        } else {
-          let dataStory = {
-            domain: domain,
-            id: id,
-          };
-          let dataJson = {};
-          dataJson[name] = dataStory;
-
-          localStorage.setItem("history", JSON.stringify(dataJson));
+          catch(e) {
+            console.log(e);
+          }
         }
       } else {
         setContext("No data");
