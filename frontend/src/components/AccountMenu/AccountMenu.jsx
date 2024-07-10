@@ -3,12 +3,11 @@ import { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
+import HistoryIcon from '@mui/icons-material/History';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
-import Typography from '@mui/material/Typography';
-import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import Login from '@mui/icons-material/Login';
@@ -113,18 +112,12 @@ export const AccountMenu = (props) => {
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
                 <MenuItem onClick={handleClose}>
-                    <Avatar /> Profile
-                </MenuItem>
-                <MenuItem onClick={handleClose}>
-                    <Avatar /> My account
+                    <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                        <Avatar style={{ width: "50px", height: "50px", margin: "0", padding: "0" }}>{photoURL ? '' : displayName && displayName[0]} </Avatar>
+                        <span style={{ marginTop: "8px", fontSize: "large", fontWeight: "500", color: "deeppink" }}>{displayName ? displayName : "Guest"}</span>
+                    </div>
                 </MenuItem>
                 <Divider />
-                <MenuItem onClick={handleClose}>
-                    <ListItemIcon>
-                        <PersonAdd fontSize="small" />
-                    </ListItemIcon>
-                    Add another account
-                </MenuItem>
                 <MenuItem onClick={handleClose}>
                     <ListItemIcon>
                         <Settings fontSize="small" />
@@ -132,23 +125,31 @@ export const AccountMenu = (props) => {
                     Settings
                 </MenuItem>
                 {isLoggedIn ?
-                    <MenuItem onClick={handleLogout}>
-                        <>
+                    <>
+                        <MenuItem onClick={() => navigate('/history')}>
                             <ListItemIcon>
-                                <Logout fontSize="small" />
+                                <HistoryIcon fontSize="small" />
                             </ListItemIcon>
-                            Logout
-                        </>
-                    </MenuItem>
+                            Reading History
+                        </MenuItem>
+                        <MenuItem onClick={handleLogout}>
+                            <>
+                                <ListItemIcon>
+                                    <Logout fontSize="small" />
+                                </ListItemIcon>
+                                Logout
+                            </>
+                        </MenuItem>
+                    </>
                     :
-                    <MenuItem onClick={() => {navigate('/login')}}>
-                        <>
+                    <>
+                        <MenuItem onClick={() => { navigate('/login') }}>
                             <ListItemIcon>
                                 <Login fontSize="small" />
                             </ListItemIcon>
                             Login
-                        </>
-                    </MenuItem>
+                        </MenuItem>
+                    </>
                 }
             </Menu>
         </>

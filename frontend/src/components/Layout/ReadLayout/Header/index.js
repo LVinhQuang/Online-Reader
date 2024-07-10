@@ -8,6 +8,7 @@ import History from "../components/History"
 
 
 import { Link } from "react-router-dom"
+import { AccountMenu } from "../../../AccountMenu/AccountMenu";
 const cx = classNames.bind(styles)
 
 function Header({ listDomain, nameStory, chapter,name }) {
@@ -53,7 +54,8 @@ function Header({ listDomain, nameStory, chapter,name }) {
         <Title name={nameStory} chapter={chapter} />
         <div className={cx('header__history-setting')}>
         <Setting listDomain={listDomain}/>
-        <History />
+        {/* <History /> */}
+        <AccountMenu/>
         </div>
     </div>;
 }

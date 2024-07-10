@@ -67,7 +67,7 @@ const Header = () => {
                         <span className="header__logo-rest">nline story reader</span>
                     </Link>
                 </div>
-                <div className="header__history">
+                {/* <div className="header__history">
                     <button className="header__history-button" onClick={toggleHistory}>
                         History
                     </button>
@@ -118,7 +118,7 @@ const Header = () => {
                             )}
                         </div>
                     )}
-                </div>
+                </div> */}
 
                 {/* User menu */}
                 {  <AccountMenu/> }
