@@ -13,7 +13,6 @@ import { ReadLayout } from "../components/Layout";
 const publicRoutes = [
   { path: "/", component: Home,},
   { path: "/stories/:domain/:name", component: Story},
-  {path: "/history", component: History},
   { path: "/read/:name/:id", component: Read, layout: ReadLayout },
   { path: "/information", component: Information, layout: null },
   { path: "/login", component: Login, layout: null},
@@ -22,5 +21,7 @@ const publicRoutes = [
 ];
 
 // Routes will be used in private environment
-const privateRoutes = [];
+const privateRoutes = [
+  {path: "/history", component: History},
+];
 export { publicRoutes, privateRoutes };

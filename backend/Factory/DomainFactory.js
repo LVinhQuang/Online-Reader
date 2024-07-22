@@ -5,6 +5,7 @@ module.exports = class DomainFactory {
     static domainCache = new Map()
 
     static InitDomainCache(dirname) {
+        this.domainCache = new Map();
         let files = fs.readdirSync(dirname)
         files.forEach(file => {
             let domainName = file.split('.')[0];
