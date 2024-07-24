@@ -15,6 +15,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - run: ls -la
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
@@ -58,3 +59,12 @@ jobs:
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_93eac78225294aea9fd563d5c3d27b3c }}
         images: 'registry0104.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_e84a458e81974bac9ae7bbccd4dafbe6 }}/samples/online-reader-backend:${{ github.sha }}'
+
+    - name: Deploy frontend backend to Azure Web App
+      id: deploy-frontend-to-webapp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'onlinereader'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_41752c6658614cec85354fed7db5b309 }}
+        images: 'registry0104.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_e84a458e81974bac9ae7bbccd4dafbe6 }}/samples/online-reader-frontend:${{ github.sha }}'
