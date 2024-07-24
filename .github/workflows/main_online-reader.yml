@@ -58,12 +58,3 @@ jobs:
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_93eac78225294aea9fd563d5c3d27b3c }}
         images: 'registry0104.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_e84a458e81974bac9ae7bbccd4dafbe6 }}/samples/online-reader-backend:${{ github.sha }}'
-
-    - name: Deploy to Azure Web App
-      id: deploy-frontend-to-webapp
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: 'online-reader'
-        slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_93eac78225294aea9fd563d5c3d27b3c }}
-        images: 'registry0104.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_e84a458e81974bac9ae7bbccd4dafbe6 }}/samples/online-reader-frontend:${{ github.sha }}'
